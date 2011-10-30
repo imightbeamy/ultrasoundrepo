@@ -1,2 +1,0 @@
-serviceClass: edu.umbc.utra.client.GreetingService
-path: 87F3BDE3A9ABC9B3DBD0956CFBB3208C.gwt.rpc
