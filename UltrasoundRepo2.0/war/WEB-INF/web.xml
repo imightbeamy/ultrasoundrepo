@@ -18,7 +18,18 @@
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>UltrasoundRepo2_0.html</welcome-file>
+    <welcome-file>mainpage.jsp</welcome-file>
   </welcome-file-list>
+  
+  <!-- static files -->
+  <static-files>
+        <include path="/css/**.css" />
+        <exclude path="/css/**.css" />
+  </static-files>
+  
+  <static-files>
+        <include path="/images/**" />
+        <exclude path="/images/**" />
+  </static-files>
 
 </web-app>
