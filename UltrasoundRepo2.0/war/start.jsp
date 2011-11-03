@@ -1,4 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.Hashtable;" %>
+
+  <%
+  	 Hashtable files = new Hashtable();
+     files.put("search", "search.jsp");
+     files.put("confirmation", "confirmation.jsp");
+     files.put("dashboard", "dashboard.jsp");
+     files.put("home", "home.jsp");
+     files.put("register", "register.jsp");
+     files.put("results", "results.jsp");
+     files.put("upload", "upload.jsp");
+     files.put("viewrecord", "viewrecord.jsp");
+  %>
+
 
 <html itemscope itemtype="http://schema.org/Product">
   <head>
@@ -20,12 +34,24 @@
   <body>
     <div class="container" >
       <div class="span-24 header">
-        <a href='/home'><h1>Ultrasound Repository</h1></a>
+        <a href='/'><h1>Ultrasound Repository</h1></a>
       </div>
       
+      <%
+      	String[] url = request.getRequestURL().toString().split("/");
+      	String content = url[url.length - 1].split("\\?")[0];
+      	String file_loc = "templates/";
+      	if( files.containsKey(content) ){
+      	   file_loc+=files.get(content);
+      	}
+      	else {
+      		file_loc+=files.get("home");
+      	}
+      %>
       <div class='content span-24'>
-      <%@ include file="templates/search.jsp" %>
+      <jsp:include page="<%=file_loc %>" />
       </div>
+
       
       <div class="span-24 footer">
           Created by 
