@@ -21,6 +21,7 @@ public class User
 		this.registeredDate = registeredDate;
 	}
 	
+	//This is for testing TODO: remove
 	public User(){}
 	
 	public com.google.appengine.api.users.User getGoogleUser()

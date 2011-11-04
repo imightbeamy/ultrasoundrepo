@@ -1,24 +1,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="edu.umbc.ultra.dbase.SearchController" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="edu.umbc.ultra.logic.Patient" %>
 
 <% 
-	
+	String keyword = request.getParameter("keyword");
 	String first = request.getParameter("first");
 	String last = request.getParameter("last");
 	String dob = request.getParameter("dob");
-	String gender = request.getParameter("gender");
+	String gender_string = request.getParameter("gender");
+	Gender gender = null; 
+	if(gender_string.equals("male")) {
+		gender = Gender.MALE
+	}
+	else if(gender_string.equals("female")) {
+		gender = Gender.FEMALE
+	}
+	else if(gender_string.equals("other")) {
+		gender = Gender.OTHER
+	}
 	String complaint = request.getParameter("complaint");
 	String reason = request.getParameter("reason");
 	String interpretation = request.getParameter("interpretation");
+	String user = request.getParameter("user");
 	
 	SearchController sc = SearchController.getInstance();
-	ArrayList<DataEntry> results = sc.searchForEntriesNOT(String firstName, 
-													String lastName, 
-													Gender gender,
-													String chiefComplaint, 
-													String keywords,
-													String userEmail);												
+	ArrayList<DataEntry> results = sc.searchForEntriesTEST(first, 
+														   last, 
+													       gender,
+													       complaint, 
+													       keywords,
+													       user);												
 %>
 	
 

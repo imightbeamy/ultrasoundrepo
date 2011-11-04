@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Patient
 {
-	public static enum Gender {MALE, FEMALE}
+	public static enum Gender {MALE, FEMALE, OTHER}
 	
 	private String firstName;
 	private String lastName;

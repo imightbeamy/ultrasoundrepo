@@ -43,7 +43,14 @@
       <input type='radio' value='any' name="gender" checked>
       <label for='any'>Any</label><br>
   </div>
-  
+
+  <div class='span-5 form-label'>
+    <label for='user'>User Email Address</label>
+  </div>
+  <div class='span-18'>
+    <input type=text name='user' id='user' size=30 maxlength=75 >
+  </div>
+    
   <div class='span-5 form-label'>
     <label for='complaint'>Complaint keyword</label>
   </div>

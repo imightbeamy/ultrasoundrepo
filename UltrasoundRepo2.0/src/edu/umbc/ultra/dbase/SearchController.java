@@ -22,6 +22,7 @@ public class SearchController
 		return null;
 	}
 
+	//Gender being null means search for any gender
 	public ArrayList<DataEntry> searchForEntriesTEST(String firstName, String lastName, Gender gender, String chiefComplaint, String keywords, String userEmail)
 	{
 //		ArrayList<DataEntry> results = new ArrayList<DataEntry>();
