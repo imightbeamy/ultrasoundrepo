@@ -9,64 +9,64 @@
   </div>
   
   <div class='span-4 form-label'>
-    <label for='password2'>Patient First Name</label>
+    <label for='first'>Patient First Name</label>
   </div>
   <div class='span-18'>
-    <input type=text name='tag' id='password2' size=30 maxlength=75 >
+    <input type=text name='first' id='first' size=30 maxlength=75 >
   </div>
   
   <div class='span-4 form-label'>
-    <label for='password2'>Patient Last Name</label>
+    <label for='last'>Patient Last Name</label>
   </div>
   <div class='span-18'>
-    <input type=text name='tag' id='password2' size=30 maxlength=75 >
+    <input type=text name='last' id='last' size=30 maxlength=75 >
   </div>
   
   <div class='span-4 form-label'>
-    <label for='password2'>Patient DoB</label>
+    <label for='DoB'>Patient DoB</label>
   </div>
   <div class='span-18'>
-    <input type=text name='tag' id='password2' size=30 maxlength=75 >
+    <input type=text name='DoB' id='DoB' size=30 maxlength=75 >
   </div>
   
   <div class='span-4 form-label'>
-    <label for='password2'>Patient Gender</label>
+    <label for='gender'>Patient Gender</label>
   </div>
   <div class='span-18 last'>
       <input type=radio name="gender"> 
-      <label for='tag-radio'>Male</label><br>
+      <label for='male'>Male</label><br>
       <input type=radio name="gender">
-      <label for='person-radio'>Female</label><br>
+      <label for='female'>Female</label><br>
       <input type=radio name="gender">
-      <label for='person-radio'>Other</label><br>
+      <label for='other'>Other</label><br>
   </div>
   
   <div class='span-4 form-label'>
-    <label for='password2'>Complaint</label>
+    <label for='complaint'>Complaint</label>
   </div>
   <div class='span-18'>
-    <input type=text name='tag' id='password2' size=30 >
+    <input type=text name='complaint' id='complaint' size=30 >
   </div>
 
   <div class='span-4 form-label'>
-    <label for='password2'>Reason for study	</label>
+    <label for='reason'>Reason for study	</label>
   </div>
   <div class='span-18'>
-    <textarea name='tag' rows='3' cols="30" ></textarea>
+    <textarea name='reason' rows='3' cols="30" ></textarea>
   </div>
 
   <div class='span-4 form-label'>
-    <label for='password2'>Resident’s interpretation</label>
+    <label for='resInterp'>Resident's interpretation</label>
   </div>
   <div class='span-18'>
-    <textarea type=textarea name='tag' id='password2' rows="6" cols="30"></textarea>
+    <textarea type=textarea name='resInterp' id='resInterp' rows="6" cols="30"></textarea>
   </div>
   
   <div class='span-4 form-label'>
-    <label for='password2'>Attending’s interpretation</label>
+    <label for='attendInterp'>Attending's interpretation</label>
   </div>
   <div class='span-18'>
-    <textarea type=textarea name='tag' id='password2' rows="6" cols="30" ></textarea>
+    <textarea type=textarea name='attendInterp' id='attendInterp' rows="6" cols="30" ></textarea>
   </div>
 
   <div class='prepend-2 span-4 form-label'>
