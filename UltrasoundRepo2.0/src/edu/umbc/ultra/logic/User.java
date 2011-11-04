@@ -21,6 +21,8 @@ public class User
 		this.registeredDate = registeredDate;
 	}
 	
+	public User(){}
+	
 	public com.google.appengine.api.users.User getGoogleUser()
 	{
 		return googleUser;
@@ -32,5 +34,9 @@ public class User
 	public Date getRegisteredDate()
 	{
 		return registeredDate;
+	}
+	public String getUserID() {
+		//get id from googleUser this is for testing
+		return "thisisanid";
 	}
 }
