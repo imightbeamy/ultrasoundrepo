@@ -4,20 +4,20 @@ import java.util.Date;
 
 public class User
 {
-	public static enum PrivelegeLevel {PENDING, RESIDENT, ATTENDING}
+	public static enum PrivilegeLevel {PENDING, RESIDENT, ATTENDING}
 	
 	/* Using this may get cumbersome, perhaps we should rename our class to something else?
 	 *  Or possibly, just make this an inherited class from theirs...though from a design
 	 *  perspective that may not be a good idea.
 	 */
 	private com.google.appengine.api.users.User googleUser;
-	private PrivelegeLevel privelegeLevel;
+	private PrivilegeLevel privilegeLevel;
 	private Date registeredDate;
 	
-	public User(com.google.appengine.api.users.User googleUser, PrivelegeLevel privelegeLevel, Date registeredDate)
+	public User(com.google.appengine.api.users.User googleUser, PrivilegeLevel privelegeLevel, Date registeredDate)
 	{
 		this.googleUser = googleUser;
-		this.privelegeLevel = privelegeLevel;
+		this.privilegeLevel = privilegeLevel;
 		this.registeredDate = registeredDate;
 	}
 	
@@ -25,9 +25,9 @@ public class User
 	{
 		return googleUser;
 	}
-	public PrivelegeLevel getPrivelegeLevel()
+	public PrivilegeLevel getPrivelegeLevel()
 	{
-		return privelegeLevel;
+		return privilegeLevel;
 	}
 	public Date getRegisteredDate()
 	{
