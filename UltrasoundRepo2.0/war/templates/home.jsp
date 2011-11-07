@@ -8,11 +8,11 @@
 <div class="span-12 last">
   <h2> Login </h2>
     <form name='imgsettings' action='/dashboard' method="get">
-      <label for='hash-tag'>User Name</label>
-      <input type=text name='tag' id='hash-tag' size=30 maxlength=75 >
+      <label for='userName'>User Name</label>
+      <input type=text name='userName' id='userName' size=30 maxlength=75 >
       <br>
-      <label for='hash-tag'>Password</label>
-      <input type=text name='tag' id='hash-tag' size=30 maxlength=75 >
+      <label for='password'>Password</label>
+      <input type=password name='password' id='password' size=30 maxlength=75 >
       <br>
       <input type="submit" value="Log in" />
     </form>
