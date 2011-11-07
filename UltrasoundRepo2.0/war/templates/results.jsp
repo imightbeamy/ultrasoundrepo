@@ -2,6 +2,7 @@
 <%@ page import="edu.umbc.ultra.dbase.SearchController" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.umbc.ultra.logic.Patient.Gender" %>
+<%@ page import="edu.umbc.ultra.logic.Patient" %>
 <%@ page import="edu.umbc.ultra.logic.DataEntry" %>
 
 <% 
@@ -11,14 +12,16 @@
 	String dob = request.getParameter("dob");
 	String gender_string = request.getParameter("gender");
 	Gender gender = null; 
-	if(gender_string.equals("male")) {
-		gender = Gender.MALE;
-	}
-	else if(gender_string.equals("female")) {
-		gender = Gender.FEMALE;
-	}
-	else if(gender_string.equals("other")) {
-		gender = Gender.OTHER;
+	if(gender_string != null) {
+		if(gender_string.equals("male")) {
+			gender = Gender.MALE;
+		}
+		else if(gender_string.equals("female")) {
+			gender = Gender.FEMALE;
+		}
+		else if(gender_string.equals("other")) {
+			gender = Gender.OTHER;
+		}
 	}
 	String complaint = request.getParameter("complaint");
 	String reason = request.getParameter("reason");
@@ -33,11 +36,9 @@
 													       keyword,
 													       user);										
 %>
-	<%=results.toString() %>
-	
 
 <div>
-  <h2>Search Results</h2>
+  <h2>Search Results (<%=results.size() %>)</h2>
  
  	
   <%
@@ -47,19 +48,19 @@
     <div class='span-20'>
       <table><tbody>
         <tr>
-          <td>Patient Name</td><td><%= p.getFirstName()  %> <%= p.getLasttName()  %></td>
+          <td>Patient Name</td><td><%= p.getFirstName()  %> <%= p.getLastName()  %></td>
         </tr>
         <tr>
           <td>Patient DoB</td><td><%= p.getDob().toString()  %></td>
         </tr>
         <tr>
-          <td>Patient Gender</td><td><%= r.Gender  %></td>
+          <td>Patient Gender</td><td><%= p.getGender()  %></td>
         </tr>
         <tr>
-          <td>Upload Date</td><td><%= r.up_date  %></td>
+          <td>Upload Date</td><td><%= de.getTimestamp()  %></td>
         </tr>
       </tbody></table>
-      <a class='viewrecord' href='/viewrecord'>View full record </a>
+      <a class='viewrecord' href='/viewrecord?entry=<%= de.getKey() %>'>View full record </a>
     </div>
 <% } %>
 
