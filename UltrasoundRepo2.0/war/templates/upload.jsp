@@ -1,11 +1,17 @@
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
+
+<%
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+%>
 
 <h2>Please fill out all information to upload a file.</h2>
-<form name='imgsettings' action='/upload' method="get">
+<form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="post" enctype="multipart/form-data">
   <div class='span-4 form-label'>
     <label for='upload'>Choose a file</label>
   </div>
   <div class='span-18 last'>
-    <input type="submit" name='upload' value="Browse" />
+    <input type="file" name="upload">
   </div>
   
   <div class='span-4 form-label'>
