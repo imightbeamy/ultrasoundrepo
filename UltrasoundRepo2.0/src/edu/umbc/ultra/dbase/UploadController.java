@@ -51,11 +51,11 @@ public class UploadController
 	/*
 	 * The dbase entity heirarchy is as follows:
 	 * 	User Entity 1
-	 *   -> DataEntry Entity 1
-	 *   	 -> Patient Entity
-	 *   	 -> Comment Entity 1
-	 *   	 -> Comment Entity 2
-	 *   -> DataEntry Entity 2
+	 *   -> Patient Entity
+	 *   	 -> DataEntry Entity 1
+	 *   	 	 -> Comment Entity 1
+	 *   	 	 -> Comment Entity 2
+	 *   	 -> DataEntry Entity 2
 	 *   etc...
 	 *   
 	 * The advantage here is that restricting a lower level user to only accessing his/her
