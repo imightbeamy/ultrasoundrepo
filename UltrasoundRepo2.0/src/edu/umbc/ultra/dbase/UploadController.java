@@ -75,19 +75,19 @@ public class UploadController
 		userEntity.setProperty("Registered", author.getRegisteredDate());
 		userEntity.setProperty("Privelege", author.getPrivelegeLevel()); // This may not work
 		
-		// Create and add DataEntry entity with a generated unique key, specifying the parent key as the user
-		Entity dataEntity = new Entity("DataEntry", userEntity.getKey());
-		dataEntity.setProperty("timestamp", entry.getTimestamp());
-		
-		// STUB: No facilitation of blob storage yet
-		
 		// Create and add Patient entity using as a key the unique id assigned upon creation
-		Entity patientEntity = new Entity("Patient", patient.getId(), dataEntity.getKey());
+		Entity patientEntity = new Entity("Patient", patient.getId(), userEntity.getKey());
 		patientEntity.setProperty("FirstName", patient.getFirstName());
 		patientEntity.setProperty("LastName", patient.getLastName());
 		patientEntity.setProperty("DOB", patient.getDob());
 		patientEntity.setProperty("Gender", patient.getGender());
 		patientEntity.setProperty("ID", patient.getId());
+		
+		// Create and add DataEntry entity with a generated unique key, specifying the parent key as the user
+		Entity dataEntity = new Entity("DataEntry", patientEntity.getKey());
+		dataEntity.setProperty("timestamp", entry.getTimestamp());
+		
+		// STUB: No facilitation of blob storage yet
 		
 		// Add each comment using a system generated key for each
 		for(Comment comment: comments)
