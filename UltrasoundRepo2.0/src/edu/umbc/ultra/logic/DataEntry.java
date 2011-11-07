@@ -14,6 +14,7 @@ public class DataEntry
 		this.comments = comments;
 		this.patient = patient;
 		this.author = author;
+		this.timestamp = new Date();
 	}
 	
 	
