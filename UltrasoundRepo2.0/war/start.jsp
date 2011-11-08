@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.Hashtable;" %>
+<%@ page import="java.util.Hashtable" %>
+<%@ page import="com.google.appengine.api.users.UserService" %>
+<%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 
   <%
   	 Hashtable files = new Hashtable();
@@ -37,19 +39,37 @@
         <a href='/'><h1>Ultrasound Repository</h1></a>
       </div>
       
-      <%
-      	String[] url = request.getRequestURL().toString().split("/");
-      	String content = url[url.length - 1].split("\\?")[0];
-      	String file_loc = "templates/";
-      	if( files.containsKey(content) ){
-      	   file_loc+=files.get(content);
-      	}
-      	else {
-      		file_loc+=files.get("home");
-      	}
-      %>
       <div class='content span-24'>
-      <jsp:include page="<%=file_loc %>" />
+      <%
+        UserService userService = UserServiceFactory.getUserService();
+        String redirectURL = request.getRequestURI();
+        String file_loc = "templates/";
+		//Check if the user is logged in  
+        if (request.getUserPrincipal() != null) {
+
+	      	String[] url = request.getRequestURL().toString().split("/");
+	      	String content = url[url.length - 1].split("\\?")[0];
+	      	
+	      	//go to the page they wanted 
+	      	if( files.containsKey(content) ){
+	      	   file_loc+=files.get(content);
+	      	}
+	      	else {
+	      		file_loc+=files.get("dashboard");
+	      	}
+	      	            %>
+           <p>Hello, <%=request.getUserPrincipal().getName() %>!  
+           	You can <a href="<%= userService.createLogoutURL(redirectURL) %>" \>sign out</a>.
+           	</p>
+	      	<jsp:include page="<%=file_loc %>" />
+	      	<%
+        } 
+        else {
+            %>
+            <p>Please <a href="<%= userService.createLoginURL(redirectURL) %>" >sign in</a>.</p>
+            <%
+        }
+      %>
       </div>
 
       
