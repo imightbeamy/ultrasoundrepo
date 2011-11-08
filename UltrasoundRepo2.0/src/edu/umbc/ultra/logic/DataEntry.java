@@ -9,12 +9,13 @@ public class DataEntry
 	private Date timestamp;
 	private ArrayList<Comment> comments;
 	private Patient patient;
-	
+	private String entrykey;
 	public DataEntry(ArrayList<Comment> comments, Patient patient, User author) {
 		this.comments = comments;
 		this.patient = patient;
 		this.author = author;
 		this.timestamp = new Date();
+		this.entrykey = "thisisakey";
 	}
 	
 	
@@ -33,5 +34,9 @@ public class DataEntry
 	public Patient getPatient()
 	{
 		return patient;
+	}
+	
+	public String getKey() {
+		return entrykey;	
 	}
 }
