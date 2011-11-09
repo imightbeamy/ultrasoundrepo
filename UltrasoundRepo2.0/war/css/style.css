@@ -123,6 +123,31 @@ a.button:active {
 
 }
 
+a.button {
+  height: 25px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #34914D;
+  background-color: #B8F2C8;
+  vertical-align: middle;
+  color: #34914D;
+  padding: 6px;
+  font-size: 14px;
+  text-decoration:none;
+}
+
+.user {
+	text-align:right;
+	padding: 40px 20px 0 0;
+}
+
+
+a.button:active {
+  border: 1px solid #000;
+  color: #000;
+  text-shadow: #999 0px 0px 15px
+}
+
 table {
   width: 500px;
   border-collapse: collapse;

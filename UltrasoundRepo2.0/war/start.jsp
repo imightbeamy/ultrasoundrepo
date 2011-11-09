@@ -1,16 +1,41 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.Hashtable;" %>
+<%@ page import="java.util.Hashtable" %>
+<%@ page import="com.google.appengine.api.users.UserService" %>
+<%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 
   <%
-  	 Hashtable files = new Hashtable();
-     files.put("search", "search.jsp");
-     files.put("confirmation", "confirmation.jsp");
-     files.put("dashboard", "dashboard.jsp");
-     files.put("home", "home.jsp");
-     files.put("register", "register.jsp");
-     files.put("results", "results.jsp");
-     files.put("upload", "upload.jsp");
-     files.put("viewrecord", "viewrecord.jsp");
+	Hashtable files = new Hashtable();
+	files.put("search", "search.jsp");
+	files.put("confirmation", "confirmation.jsp");
+	files.put("dashboard", "dashboard.jsp");
+	files.put("home", "home.jsp");
+	files.put("register", "register.jsp");
+	files.put("results", "results.jsp");
+	files.put("upload", "upload.jsp");
+	files.put("viewrecord", "viewrecord.jsp");
+     
+	UserService userService = UserServiceFactory.getUserService();
+	String redirectURL = request.getRequestURI();
+	String file_loc = "templates/";
+	Boolean canhazuser = (request.getUserPrincipal() != null);
+	//Check if the user is logged in  
+	if (canhazuser) {
+	
+	  	String[] url = request.getRequestURL().toString().split("/");
+	  	String content = url[url.length - 1].split("\\?")[0];
+	  	
+	  	//go to the page they wanted 
+	  	if( files.containsKey(content) ){
+	  	   file_loc+=files.get(content);
+	  	}
+	  	else {
+	  		file_loc+=files.get("dashboard");
+	  	}
+	
+	} 
+	else {
+		file_loc+=files.get("home");
+	}
   %>
 
 
@@ -34,21 +59,22 @@
   <body>
     <div class="container" >
       <div class="span-24 header">
-        <a href='/'><h1>Ultrasound Repository</h1></a>
+        <div class="span-16">
+        	<a href='/'>
+        		<h1>Ultrasound Repository</h1>
+        	</a>
+        </div>
+        <% if(canhazuser) { %>
+	        <div class="span-5 user">
+	        	<p>
+	        		Current user: <%=request.getUserPrincipal().getName() %><br>
+	        		<a href="<%= userService.createLogoutURL(redirectURL) %>" \>Sign out</a>
+	      		</p>
+	      	</div>	
+	    <% } %>
       </div>
       
-      <%
-      	String[] url = request.getRequestURL().toString().split("/");
-      	String content = url[url.length - 1].split("\\?")[0];
-      	String file_loc = "templates/";
-      	if( files.containsKey(content) ){
-      	   file_loc+=files.get(content);
-      	}
-      	else {
-      		file_loc+=files.get("home");
-      	}
-      %>
-      <div class='content span-24'>
+      <div class='content span-24'> 
       <jsp:include page="<%=file_loc %>" />
       </div>
 

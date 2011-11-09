@@ -39,11 +39,15 @@
        <tr>
          <td>Reason for study</td><td>{{ record.reason }}</td>
        </tr>
+     </tbody></table>
+     
+     <h3>Comments and Interpretations</h3> 
+     <table><tbody>
        <tr>
-         <td>Resident’s interpretation</td><td>{{ record.r_interpretation }}</td>
+         <td>User1<br>(type)</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mauris ipsum, elementum ut venenatis sed, aliquet venenatis dui. Integer in orci at ante vehicula convallis. Fusce quis eros risus. Quisque cursus tortor egestas magna imperdiet fermentum. Pellentesque vitae velit dui. Sed nec adipiscing nisi. In congue tincidunt turpis, nec sollicitudin eros fermentum ut.</td>
        </tr>
        <tr>
-         <td>Attending’s interpretation</td><td>{{ record.r_interpretation }}</td>
+         <td>User2<br>(type)</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mauris ipsum, elementum ut venenatis sed, aliquet venenatis dui. Integer in orci at ante vehicula convallis. Fusce quis eros risus. Quisque cursus tortor egestas magna imperdiet fermentum. Pellentesque vitae velit dui. Sed nec adipiscing nisi. In congue tincidunt turpis, nec sollicitudin eros fermentum ut.</td>
        </tr>
      </tbody></table>
    </div>
