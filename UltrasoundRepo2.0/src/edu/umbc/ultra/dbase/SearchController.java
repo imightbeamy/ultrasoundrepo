@@ -3,6 +3,8 @@ package edu.umbc.ultra.dbase;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.appengine.api.datastore.Query;
+
 import edu.umbc.ultra.logic.Comment;
 import edu.umbc.ultra.logic.DataEntry;
 import edu.umbc.ultra.logic.Patient;
@@ -18,7 +20,7 @@ public class SearchController
 	
 	public ArrayList<DataEntry> searchForEntries(String firstName, String lastName, Gender gender, String chiefComplaint, String keywords, String userEmail)
 	{
-		
+		Query query = new Query("DataEntry");
 		return null;
 	}
 
