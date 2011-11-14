@@ -16,6 +16,16 @@ public class RightsManagementController
 		
 	}
 	
+	public User.PrivilegeLevel getPrivilegeLevel(String email)
+	{
+		User user = getUser(email);
+		if(user != null)
+		{
+			return user.getPrivilegeLevel();
+		}
+		return null;
+	}
+	
 	public User getUser(String email)
 	{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
