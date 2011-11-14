@@ -12,13 +12,20 @@
     <jsp-file>/start.jsp</jsp-file>
   </servlet>
   
+  <servlet>
+    <servlet-name>Upload</servlet-name>
+    <servlet-class>edu.umbc.ultra.dbase.UploadController</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>start</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   
-  
-  
+  <servlet-mapping>
+    <servlet-name>Upload</servlet-name>
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
 
   <!-- static files -->
   <static-files>

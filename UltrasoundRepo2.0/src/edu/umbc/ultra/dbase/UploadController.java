@@ -36,12 +36,6 @@ public class UploadController extends HttpServlet {
         lastBlobKey = blobKey.getKeyString();
         
         System.out.println(lastBlobKey);
-        
-//        if (blobKey == null) {
-//            res.sendRedirect("/");
-//        } else {
-//            res.sendRedirect("/serve?blob-key=" + blobKey.getKeyString());
-//        }
     }
 
 	public UploadController()
