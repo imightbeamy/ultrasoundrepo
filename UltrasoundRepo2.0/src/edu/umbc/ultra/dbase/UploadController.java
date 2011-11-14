@@ -113,10 +113,9 @@ public class UploadController extends HttpServlet {
 		dataEntity.setProperty("timestamp", entry.getTimestamp());
 		
 		// STUB: No facilitation of blob storage yet
-		Entity blobEntity = new Entity("BlobEntry", dataEntity.getKey());
-		blobEntity.setProperty("Video", lastBlobKey);
-		
-		System.out.println(lastBlobKey);
+		//Half assed attempt at adding blob storage.
+//		Entity blobEntity = new Entity("BlobEntry", dataEntity.getKey());
+//		blobEntity.setProperty("Video", lastBlobKey);
 		
 		// Add each comment using a system generated key for each
 		for(Comment comment: comments)
