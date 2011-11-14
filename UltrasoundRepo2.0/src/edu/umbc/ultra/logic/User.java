@@ -14,7 +14,7 @@ public class User
 	private PrivilegeLevel privilegeLevel;
 	private Date registeredDate;
 	
-	public User(com.google.appengine.api.users.User googleUser, PrivilegeLevel privelegeLevel, Date registeredDate)
+	public User(com.google.appengine.api.users.User googleUser, PrivilegeLevel PrivilegeLevel, Date registeredDate)
 	{
 		this.googleUser = googleUser;
 		this.privilegeLevel = privilegeLevel;
@@ -28,7 +28,7 @@ public class User
 	{
 		return googleUser;
 	}
-	public PrivilegeLevel getPrivelegeLevel()
+	public PrivilegeLevel getPrivilegeLevel()
 	{
 		return privilegeLevel;
 	}

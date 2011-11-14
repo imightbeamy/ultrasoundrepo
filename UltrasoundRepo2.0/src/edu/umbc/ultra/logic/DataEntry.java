@@ -3,12 +3,15 @@ package edu.umbc.ultra.logic;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 public class DataEntry
 {
 	private User author;
 	private Date timestamp;
 	private ArrayList<Comment> comments;
 	private Patient patient;
+	private BlobKey key;
 	
 	public DataEntry(ArrayList<Comment> comments, Patient patient, User author) {
 		this.comments = comments;
@@ -33,5 +36,10 @@ public class DataEntry
 	public Patient getPatient()
 	{
 		return patient;
+	}
+	
+	public BlobKey getBlobKey()
+	{
+		return key;
 	}
 }
