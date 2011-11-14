@@ -1,6 +1,6 @@
 
 <h2>Please fill out all information to register for the system.</h2>
-<form name='imgsettings' action='/confirmation' method="get">
+<form name='imgsettings' action='/confirmation' method="post">
   <div class='span-4 form-label'>
     <label for='userName'>User Name</label>
   </div>

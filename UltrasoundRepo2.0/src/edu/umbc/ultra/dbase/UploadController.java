@@ -96,9 +96,8 @@ public class UploadController extends HttpServlet {
 		
 		// Create root entity with a key specifier created from the user's email
 		Entity userEntity = new Entity("User", author.getGoogleUser().getEmail());
-		userEntity.setProperty("GoogleAccount", author.getGoogleUser());
 		userEntity.setProperty("Registered", author.getRegisteredDate());
-		userEntity.setProperty("Privilege", author.getPrivilegeLevel()); // This may not work
+		userEntity.setProperty("Privilege", author.getPrivilegeLevel().toString()); // This may not work
 		
 		// Create and add Patient entity using as a key the unique id assigned upon creation
 		Entity patientEntity = new Entity("Patient", patient.getId(), userEntity.getKey());

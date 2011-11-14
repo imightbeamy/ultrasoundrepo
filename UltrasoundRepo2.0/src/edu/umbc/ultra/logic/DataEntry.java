@@ -12,12 +12,14 @@ public class DataEntry
 	private ArrayList<Comment> comments;
 	private Patient patient;
 	private BlobKey key;
-	
+	private String entrykey;
+
 	public DataEntry(ArrayList<Comment> comments, Patient patient, User author) {
 		this.comments = comments;
 		this.patient = patient;
 		this.author = author;
 		this.timestamp = new Date();
+		this.entrykey = "thisisakey";
 	}
 	
 	
@@ -41,5 +43,8 @@ public class DataEntry
 	public BlobKey getBlobKey()
 	{
 		return key;
+	}
+	public String getKey() {
+		return entrykey;	
 	}
 }
