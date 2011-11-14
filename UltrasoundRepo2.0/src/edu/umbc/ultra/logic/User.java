@@ -14,7 +14,7 @@ public class User
 	private PrivilegeLevel privilegeLevel;
 	private Date registeredDate;
 	
-	public User(com.google.appengine.api.users.User googleUser, PrivilegeLevel privelegeLevel, Date registeredDate)
+	public User(com.google.appengine.api.users.User googleUser, PrivilegeLevel privilegeLevel, Date registeredDate)
 	{
 		this.googleUser = googleUser;
 		this.privilegeLevel = privilegeLevel;
@@ -28,7 +28,7 @@ public class User
 	{
 		return googleUser;
 	}
-	public PrivilegeLevel getPrivelegeLevel()
+	public PrivilegeLevel getPrivilegeLevel()
 	{
 		return privilegeLevel;
 	}
@@ -39,5 +39,22 @@ public class User
 	public String getUserID() {
 		//get id from googleUser this is for testing
 		return "thisisanid";
+	}
+	public static User findUser(String userEmail) {
+		/*
+		User user = null;
+		for(int i = 0; i < dataStore.userCount; i++) {
+			if(dataStore.Users[i].googleUser.equals(userEmail)) {
+				user = dataStore.Users[i];
+				return user;
+			}
+		}
+		return user;
+		*/
+		return new User(null, PrivilegeLevel.ATTENDING, new Date());
+	}
+	public String toString() {
+		return this.privilegeLevel.toString();
+		//return u1.privilegeLevel.toString();
 	}
 }

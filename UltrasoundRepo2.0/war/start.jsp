@@ -2,36 +2,59 @@
 <%@ page import="java.util.Hashtable" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
+<%@ page import="edu.umbc.ultra.logic.User" %>
 
   <%
 	Hashtable files = new Hashtable();
-	files.put("search", "search.jsp");
-	files.put("confirmation", "confirmation.jsp");
-	files.put("dashboard", "dashboard.jsp");
 	files.put("home", "home.jsp");
-	files.put("register", "register.jsp");
-	files.put("results", "results.jsp");
-	files.put("upload", "upload.jsp");
-	files.put("viewrecord", "viewrecord.jsp");
-     
+    
 	UserService userService = UserServiceFactory.getUserService();
 	String redirectURL = request.getRequestURI();
 	String file_loc = "templates/";
 	Boolean canhazuser = (request.getUserPrincipal() != null);
 	//Check if the user is logged in  
 	if (canhazuser) {
-	
+		files.remove("home");
+		String userEmail = request.getUserPrincipal().toString();
+		User user = User.findUser(userEmail);
+		//Check if user is in the system
+		if(user != null) {
+			if(user.getPrivilegeLevel().toString().equals("RESIDENT")) {
+				files.put("dashboard", "dashboard2.jsp");
+				files.put("upload", "upload.jsp");
+			} else if(user.getPrivilegeLevel().toString().equals("ATTENDING")) {
+				files.put("dashboard", "dashboard.jsp");
+				files.put("search", "search.jsp");
+				files.put("results", "results.jsp");
+				files.put("upload", "upload.jsp");
+				files.put("viewrecord", "viewrecord.jsp");
+			}
+		}
+		else {
+			files.put("home", "home.jsp");
+			files.put("register", "register.jsp");
+			files.put("confirmation", "confirmation.jsp");
+		}
+
 	  	String[] url = request.getRequestURL().toString().split("/");
 	  	String content = url[url.length - 1].split("\\?")[0];
 	  	
-	  	//go to the page they wanted 
-	  	if( files.containsKey(content) ){
-	  	   file_loc+=files.get(content);
+	  	//go to the page they wanted
+	  	if(user != null) {
+	  		if(files.containsKey(content)){
+	  	   		file_loc+=files.get(content);
+	  		}
+	  		else {
+	  			file_loc+=files.get("dashboard");
+	  		}
+	  	} else {
+	  		if(files.containsKey(content)){
+	  			file_loc+=files.get(content);
+	  		}
+	  		else {
+	  			file_loc+=files.get("register");
+	  		}
 	  	}
-	  	else {
-	  		file_loc+=files.get("dashboard");
-	  	}
-	
 	} 
 	else {
 		file_loc+=files.get("home");
