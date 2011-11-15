@@ -21,8 +21,9 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.api.users.UserService;
 import java.text.DateFormat;
-
+import java.text.SimpleDateFormat;
 import edu.umbc.ultra.logic.Comment;
 import edu.umbc.ultra.logic.DataEntry;
 import edu.umbc.ultra.logic.Patient;
@@ -44,21 +45,24 @@ public class UploadController extends HttpServlet {
     	String first = req.getParameter("first");
     	String last = req.getParameter("last");
     	try {
-			DoB = DateFormat.parse(req.getParameter("DoB"));
+    		DateFormat df = new SimpleDateFormat("mm/dd/yyyy");
+			DoB = df.parse(req.getParameter("DoB"));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			DoB = new Date();
+			//e.printStackTrace();
 		}
     	Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
     	patient = new Patient(first, last, DoB, gender);
-    	User user = rightsController.getUser(UserServiceFactory.getUserService().getCurrentUser().getEmail());
+    	//UserService us = UserServiceFactory.getUserService();
+    	User user = new User();//rightsController.getUser(us.getCurrentUser().getEmail());
     	ArrayList<Comment> comments = new ArrayList<Comment>();
     	comments.add(new Comment(req.getParameter("complaint"), user));
     	comments.add(new Comment(req.getParameter("reason"), user));
     	comments.add(new Comment(req.getParameter("resInterp"), user));
     	comments.add(new Comment(req.getParameter("attendInterp"), user));
     	DataEntry data = new DataEntry(comments, patient, user, blobKey, null);
-    	res.sendRedirect("/");
+    	res.sendRedirect("/viewrecord?entry="+blobKey);
     }
 
 	public UploadController()
