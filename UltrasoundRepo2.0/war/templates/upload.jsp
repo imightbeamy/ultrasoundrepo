@@ -6,7 +6,7 @@
 %>
 
 <h2>Please fill out all information to upload a file.</h2>
-<form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="post" enctype="multipart/form-data">
+<form action="<%= blobstoreService.createUploadUrl("/videoupload") %>" method="post" enctype="multipart/form-data">
   <div class='span-4 form-label'>
     <label for='upload'>Choose a file</label>
   </div>

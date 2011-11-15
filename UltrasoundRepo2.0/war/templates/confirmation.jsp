@@ -4,16 +4,16 @@
 <%@ page import="java.util.Date" %>
 
 <%
-	String email = request.getUserPrincipal().getEmail();
+	String email = request.getUserPrincipal().toString();
 	String first = request.getParameter("first");
 	String last = request.getParameter("last");
 	String requested_role = request.getParameter("role");
-  	//User newuser = new User(email, PrivilegeLevel.PENDING, new Date())
-  	//RightsManagementController rm = RightsManagementController.getInstance()
-  	//rm.addUser(newuser);
+  	User newuser = new User(email, PrivilegeLevel.ATTENDING, new Date(), first, last);
+  	RightsManagementController rm = RightsManagementController.getInstance();
+  	rm.addUser(newuser);
 %>
 
-<%=email >
+<%=email %>
 <div class='span-10'>
   <h2>Thank you for registering!</h2>
   <p>
