@@ -2,27 +2,6 @@
 <h2>Please fill out all information to register for the system.</h2>
 <form name='imgsettings' action='/confirmation' method="post">
   <div class='span-4 form-label'>
-    <label for='userName'>User Name</label>
-  </div>
-  <div class='span-18 last'>
-    <input type=text name='userName' id='userName' size=30 maxlength=75 >
-  </div>
-  
-  <div class='span-4 form-label'>
-    <label for='password'>Password</label>
-  </div>
-  <div class='span-18 last'>
-    <input type=password name='password' id='password' size=30 maxlength=75 >
-  </div>
-  
-  <div class='span-4 form-label'>
-    <label for='confirmPassword'>Re-enter password</label>
-  </div>
-  <div class='span-18'>
-    <input type=password name='confirmPassword' id='confirmPassword' size=30 maxlength=75 >
-  </div>
-  
-  <div class='span-4 form-label'>
     <label for='firstName'>First name</label>
   </div>
   <div class='span-18'>
