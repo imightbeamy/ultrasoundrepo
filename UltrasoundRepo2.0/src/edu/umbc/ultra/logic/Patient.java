@@ -14,13 +14,13 @@ public class Patient
 	
 	
 	
-	public Patient(String firstName, String lastName, Date dob, Gender gender, String id)
+	public Patient(String firstName, String lastName, Date dob, Gender gender)
 	{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
 		this.gender = gender;
-		this.id = id;
+		this.id = "" + firstName.charAt(0) + lastName.charAt(0) + dob.toString() + "";
 	}
 	public String getFullName()
 	{
@@ -45,5 +45,39 @@ public class Patient
 	public String getId()
 	{
 		return id;
+	}
+	
+	public static String getGenderAsString(Gender gender)
+	{
+		if(gender == Gender.MALE)
+		{
+			return "MALE";
+		}
+		else if(gender == Gender.FEMALE)
+		{
+			return "FEMALE";
+		}
+		else if(gender == Gender.OTHER)
+		{
+			return "OTHER";
+		}
+		return null;
+	}
+	
+	public static Gender getGenderFromString(String in)
+	{
+		if(in.equals("MALE"))
+		{
+			return Gender.MALE;
+		}
+		else if(in.equals("FEMALE"))
+		{
+			return Gender.FEMALE;
+		}
+		else if(in.equals("OTHER"))
+		{
+			return Gender.OTHER;
+		}
+		return null;
 	}
 }

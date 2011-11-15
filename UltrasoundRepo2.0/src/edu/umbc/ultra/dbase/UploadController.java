@@ -1,8 +1,10 @@
 package edu.umbc.ultra.dbase;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -18,26 +20,45 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.ibm.icu.text.DateFormat;
 
 import edu.umbc.ultra.logic.Comment;
 import edu.umbc.ultra.logic.DataEntry;
 import edu.umbc.ultra.logic.Patient;
+import edu.umbc.ultra.logic.Patient.Gender;
 import edu.umbc.ultra.logic.User;
 
 /* Making this class and other controller classes singletons...didn't want to, don't really have a choice */
 public class UploadController extends HttpServlet {
 
 	private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    private String lastBlobKey;
     
     public void doPost(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-
+    	RightsManagementController rightsController = RightsManagementController.getInstance();
         Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
         BlobKey blobKey = blobs.get("upload");
-        lastBlobKey = blobKey.getKeyString();
-        
-        System.out.println(lastBlobKey);
+    	Patient patient = null;
+    	Date DoB = null;
+    	String first = req.getParameter("first");
+    	String last = req.getParameter("last");
+    	try {
+    		DateFormat df = null;
+			DoB = df.parse(req.getParameter("DoB"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
+    	patient = new Patient(first, last, DoB, gender);
+    	User user = rightsController.getUser(UserServiceFactory.getUserService().getCurrentUser().getEmail());
+    	ArrayList<Comment> comments = new ArrayList<Comment>();
+    	comments.add(new Comment(req.getParameter("complaint"), user));
+    	comments.add(new Comment(req.getParameter("reason"), user));
+    	comments.add(new Comment(req.getParameter("resInterp"), user));
+    	comments.add(new Comment(req.getParameter("attendInterp"), user));
+    	DataEntry data = new DataEntry(comments, patient, user, blobKey, null);
     }
 
 	public UploadController()
@@ -107,7 +128,8 @@ public class UploadController extends HttpServlet {
 		// Create and add DataEntry entity with a generated unique key, specifying the parent key as the user
 		Entity dataEntity = new Entity("DataEntry", patientEntity.getKey());
 		dataEntity.setProperty("timestamp", entry.getTimestamp());
-		
+		dataEntity.setProperty("blobKey", entry.getBlobKey());
+		dataEntity.setProperty("uniqueID", dataEntity.getKey().hashCode());
 		// STUB: No facilitation of blob storage yet
 		//Half assed attempt at adding blob storage.
 //		Entity blobEntity = new Entity("BlobEntry", dataEntity.getKey());
