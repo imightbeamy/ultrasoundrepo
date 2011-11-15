@@ -3,6 +3,7 @@
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 <%@ page import="edu.umbc.ultra.logic.User" %>
+<%@ page import="edu.umbc.ultra.dbase.RightsManagementController" %>
 
   <%
 	Hashtable files = new Hashtable();
@@ -12,11 +13,12 @@
 	String redirectURL = request.getRequestURI();
 	String file_loc = "templates/";
 	Boolean canhazuser = (request.getUserPrincipal() != null);
+	RightsManagementController rightsController = RightsManagementController.getInstance();
 	//Check if the user is logged in  
 	if (canhazuser) {
 		files.remove("home");
 		String userEmail = request.getUserPrincipal().toString();
-		User user = User.findUser(userEmail);
+		User user = rightsController.getUser(userEmail);
 		//Check if user is in the system
 		if(user != null) {
 			if(user.getPrivilegeLevel().toString().equals("RESIDENT")) {
