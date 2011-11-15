@@ -24,7 +24,7 @@
   
   <servlet-mapping>
     <servlet-name>Upload</servlet-name>
-    <url-pattern>/upload</url-pattern>
+    <url-pattern>/videoupload</url-pattern>
   </servlet-mapping>
 
   <!-- static files -->

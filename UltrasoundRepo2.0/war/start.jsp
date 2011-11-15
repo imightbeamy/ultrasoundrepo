@@ -3,12 +3,13 @@
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 <%@ page import="edu.umbc.ultra.logic.User" %>
+<%@ page import="edu.umbc.ultra.logic.User.PrivilegeLevel" %>
 <%@ page import="edu.umbc.ultra.dbase.RightsManagementController" %>
 
   <%
 	Hashtable files = new Hashtable();
 	files.put("home", "home.jsp");
-    
+    PrivilegeLevel status = null;
 	UserService userService = UserServiceFactory.getUserService();
 	String redirectURL = request.getRequestURI();
 	String file_loc = "templates/";
@@ -21,10 +22,11 @@
 		User user = rightsController.getUser(userEmail);
 		//Check if user is in the system
 		if(user != null) {
-			if(user.getPrivilegeLevel().toString().equals("RESIDENT")) {
+		    status = user.getPrivilegeLevel();
+			if(status == PrivilegeLevel.RESIDENT) {
 				files.put("dashboard", "dashboard2.jsp");
 				files.put("upload", "upload.jsp");
-			} else if(user.getPrivilegeLevel().toString().equals("ATTENDING")) {
+			} else if(status == PrivilegeLevel.ATTENDING) {
 				files.put("dashboard", "dashboard.jsp");
 				files.put("search", "search.jsp");
 				files.put("results", "results.jsp");
@@ -100,7 +102,12 @@
       </div>
       
       <div class='content span-24'> 
+      
+      <% if(status == PrivilegeLevel.PENDING) { %>
+	  <p>Your status is currently pending.</p>
+	  <% }else{ %>
       <jsp:include page="<%=file_loc %>" />
+      <% } %>
       </div>
 
       
