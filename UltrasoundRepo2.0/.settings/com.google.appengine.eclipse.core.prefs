@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-#Mon Nov 07 18:26:06 EST 2011
+#Mon Nov 14 19:37:19 EST 2011
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=branch 'master' of https\://agrube@code.google.com/p/ultrasoundrepo/
 eclipse.preferences.version=1
-filesCopiedToWebInfLib=appengine-api-1.0-sdk-1.5.5.jar|jsr107cache-1.1.jar|datanucleus-jpa-1.1.5.jar|geronimo-jpa_3.0_spec-1.1.1.jar|geronimo-jta_1.1_spec-1.1.1.jar|datanucleus-core-1.1.5.jar|jdo2-api-2.3-eb.jar|datanucleus-appengine-1.0.9.final.jar|appengine-jsr107cache-1.5.5.jar|appengine-api-labs-1.5.5.jar
-=======
-#Mon Nov 07 18:33:53 EST 2011
-eclipse.preferences.version=1
-filesCopiedToWebInfLib=appengine-api-1.0-sdk-1.5.4.jar|appengine-api-labs-1.5.4.jar|appengine-jsr107cache-1.5.4.jar|jsr107cache-1.1.jar|datanucleus-appengine-1.0.9.final.jar|datanucleus-core-1.1.5.jar|datanucleus-jpa-1.1.5.jar|geronimo-jpa_3.0_spec-1.1.1.jar|geronimo-jta_1.1_spec-1.1.1.jar|jdo2-api-2.3-eb.jar
->>>>>>> branch 'master' of https://agrube@code.google.com/p/ultrasoundrepo/
+filesCopiedToWebInfLib=appengine-api-1.0-sdk-1.5.5.jar|appengine-api-labs-1.5.5.jar|appengine-jsr107cache-1.5.5.jar|jsr107cache-1.1.jar|datanucleus-appengine-1.0.9.final.jar|datanucleus-core-1.1.5.jar|datanucleus-jpa-1.1.5.jar|geronimo-jpa_3.0_spec-1.1.1.jar|geronimo-jta_1.1_spec-1.1.1.jar|jdo2-api-2.3-eb.jar
 gaeHrdEnabled=true
