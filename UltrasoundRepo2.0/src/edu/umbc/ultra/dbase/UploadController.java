@@ -21,7 +21,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.ibm.icu.text.DateFormat;
+import java.text.DateFormat;
 
 import edu.umbc.ultra.logic.Comment;
 import edu.umbc.ultra.logic.DataEntry;
