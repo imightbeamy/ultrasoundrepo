@@ -6,25 +6,25 @@ public class User
 {
 	public static enum PrivilegeLevel {PENDING, RESIDENT, ATTENDING}
 	
-	/* Using this may get cumbersome, perhaps we should rename our class to something else?
-	 *  Or possibly, just make this an inherited class from theirs...though from a design
-	 *  perspective that may not be a good idea.
-	 */
-	private com.google.appengine.api.users.User googleUser;
+	private String googleUser;
 	private PrivilegeLevel privilegeLevel;
 	private Date registeredDate;
+	private String firstName;
+	private String lastName;
 	
-	public User(com.google.appengine.api.users.User googleUser, PrivilegeLevel privilegeLevel, Date registeredDate)
+	public User(String googleUser, PrivilegeLevel privilegeLevel, Date date, String firstName, String lastName)
 	{
 		this.googleUser = googleUser;
 		this.privilegeLevel = privilegeLevel;
-		this.registeredDate = registeredDate;
+		this.registeredDate = date;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 	
 	//This is for testing TODO: remove
 	public User(){}
 	
-	public com.google.appengine.api.users.User getGoogleUser()
+	public String getGoogleUser()
 	{
 		return googleUser;
 	}
@@ -35,6 +35,14 @@ public class User
 	public Date getRegisteredDate()
 	{
 		return registeredDate;
+	}
+	public String getFirstName()
+	{
+		return firstName;
+	}
+	public String getLastName()
+	{
+		return lastName;
 	}
 	public String getUserID() {
 		//get id from googleUser this is for testing
@@ -51,10 +59,50 @@ public class User
 		}
 		return user;
 		*/
-		return new User(null, PrivilegeLevel.ATTENDING, new Date());
+		return new User(null, PrivilegeLevel.ATTENDING, new Date(), "?", "??");
 	}
 	public String toString() {
 		return this.privilegeLevel.toString();
 		//return u1.privilegeLevel.toString();
+	}
+	
+	public static String getPrivilegeLevelAsString(PrivilegeLevel pLevel)
+	{
+		if(pLevel == PrivilegeLevel.ATTENDING)
+		{
+			return "ATTENDING";
+		}
+		else if(pLevel == PrivilegeLevel.RESIDENT)
+		{
+			return "RESIDENT";
+		}
+		else if(pLevel == PrivilegeLevel.PENDING)
+		{
+			return "PENDING";
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	public static PrivilegeLevel getPrivilegeLevelFromString(String pLevel)
+	{
+		if(pLevel.equals("ATTENDING"))
+		{
+			return PrivilegeLevel.ATTENDING;
+		}
+		else if(pLevel.equals("RESIDENT"))
+		{
+			return PrivilegeLevel.RESIDENT;
+		}
+		else if(pLevel.equals("PENDING"))
+		{
+			return PrivilegeLevel.PENDING;
+		}
+		else
+		{
+			return null;
+		}
 	}
 }
