@@ -14,13 +14,13 @@ public class Patient
 	
 	
 	
-	public Patient(String firstName, String lastName, Date dob, Gender gender, String id)
+	public Patient(String firstName, String lastName, Date dob, Gender gender)
 	{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
 		this.gender = gender;
-		this.id = id;
+		this.id = "" + firstName.charAt(0) + lastName.charAt(0) + dob.toString() + "";
 	}
 	public String getFullName()
 	{
@@ -45,5 +45,14 @@ public class Patient
 	public String getId()
 	{
 		return id;
+	}
+	public Gender stringToGender(String gender) {
+		if(gender.equals("MALE")) {
+			return Gender.MALE;
+		} else if(gender.equals("FEMALE")) {
+			return Gender.FEMALE;
+		} else {
+			return Gender.OTHER;
+		}
 	}
 }
