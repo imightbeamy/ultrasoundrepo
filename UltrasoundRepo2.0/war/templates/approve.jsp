@@ -12,27 +12,33 @@
 <%@ page import="javax.mail.internet.MimeMessage" %>
 
 <%
-	String email = request.getUserPrincipal().toString();
-	String first = request.getParameter("first");
-	String last = request.getParameter("last");
-	
-	String role_string = request.getParameter("role");
-	
-  	User newuser = new User(email, PrivilegeLevel.ATTENDING, new Date(), first, last);
-  	RightsManagementController rm = RightsManagementController.getInstance();
-  	rm.addUser(newuser);
+	String email = request.getParameter("user");
+
+    String role_string = request.getParameter("level");
+	PrivilegeLevel requested_role;
+	if(role_string != null) {
+		if(role_string.equals("resident")) {
+			requested_role = PrivilegeLevel.PENDING;
+		}
+		else if(role_string.equals("attending")) {
+			requested_role = PrivilegeLevel.ATTENDING;
+		}
+	}
   	
+  	RightsManagementController rm = RightsManagementController.getInstance();
+  	rm.changePrivilegeLevel(email, requested_role);
+
   	Properties props = new Properties();
     Session mailsesh = Session.getDefaultInstance(props, null);
-    String aprovalurl = "http://ultrasoundrepo.appspot.com/approve?user=" + email + "&level=" + role_string;
-    String msgBody = "<a href='" + aprovalurl + "'>Click here to approve " + first + " " + last + "</a>";
+    String msgBody = "You have been approved as a " + requested_role + 
+    				 "<a href='http://ultrasoundrepo.appspot.com/'>Click Here to use the system</a>";
 
     try {
         Message msg = new MimeMessage(mailsesh);
         msg.setFrom(new InternetAddress("ultrasoundrepo.reg@gmail.com", "Registration"));
         msg.addRecipient(Message.RecipientType.TO,
-                         new InternetAddress("AmyCiav@gmail.com", "Amy Ciavolino"));
-        msg.setSubject("Please approve a registration for ulrasoundrepo");
+                         new InternetAddress(email, requested_role.toString()));
+        msg.setSubject("Approve of registration for ulrasoundrepo");
         msg.setText(msgBody);
         Transport.send(msg);
 
@@ -46,10 +52,8 @@
 
 <%=email %>
 <div class='span-10'>
-  <h2>Thank you for registering!</h2>
+  <h2>Thank you for approving <%=email %>!</h2>
   <p>
-    A confirmation email has been sent to you and an email 
-    has been sent to existing users to approve or deny your registration.
-    You will receive an email once you have been approved or denied. 
+    An email has been sent to the approved use letting them know thay can use the system 
   </p>
 </div>
