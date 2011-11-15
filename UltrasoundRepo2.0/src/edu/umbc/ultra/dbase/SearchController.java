@@ -21,8 +21,11 @@ public class SearchController
 	
 	public ArrayList<DataEntry> searchForEntries(String firstName, String lastName, Gender gender, String chiefComplaint, String keywords, String userEmail)
 	{
-		Query query = new Query("DataEntry").setAncestor(KeyFactory.createKey("User", userEmail));
-		
+		Query query = new Query("DataEntry");
+		if(userEmail != null)
+		{
+			query.setAncestor(KeyFactory.createKey("User", userEmail));
+		}
 		
 		
 		return null;
