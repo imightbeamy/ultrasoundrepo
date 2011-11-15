@@ -3,6 +3,7 @@ package edu.umbc.ultra.dbase;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 
 import edu.umbc.ultra.logic.Comment;
@@ -20,7 +21,10 @@ public class SearchController
 	
 	public ArrayList<DataEntry> searchForEntries(String firstName, String lastName, Gender gender, String chiefComplaint, String keywords, String userEmail)
 	{
-		Query query = new Query("DataEntry");
+		Query query = new Query("DataEntry").setAncestor(KeyFactory.createKey("User", userEmail));
+		
+		
+		
 		return null;
 	}
 

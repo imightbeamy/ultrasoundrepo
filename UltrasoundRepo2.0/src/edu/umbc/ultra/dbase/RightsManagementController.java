@@ -42,11 +42,19 @@ public class RightsManagementController
 		}
 	}
 	
+	public boolean changePrivilegeLevel(String email, User.PrivilegeLevel privileges)
+	{
+		User user = getUser(email);
+		if(user != null)
+		{
+			return putUser(new User(email, privileges, user.getRegisteredDate(), user.getFirstName(), user.getLastName()));
+		}
+		return false;
+	}
+	
 	// Returns false if user already exists, true otherwise
 	public boolean addUser(User user)
-	{
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		
+	{	
 		// See if this user exists in the dbase already...
 		User userFromDBase = getUser(user.getGoogleUser());
 		if(userFromDBase != null)
@@ -62,6 +70,21 @@ public class RightsManagementController
 		userEntity.setProperty("FirstName", user.getFirstName());
 		userEntity.setProperty("LastName", user.getLastName());
 		
+		return putUser(user);
+	}
+	
+	private static boolean putUser(User user)
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		// Create root entity with a key specifier created from the user's email
+		Entity userEntity = new Entity("User", user.getGoogleUser());
+				
+		userEntity.setProperty("Registered", user.getRegisteredDate());
+		userEntity.setProperty("Privilege", User.getPrivilegeLevelAsString(user.getPrivilegeLevel()));
+		userEntity.setProperty("FirstName", user.getFirstName());
+		userEntity.setProperty("LastName", user.getLastName());
+		
 		try
 		{
 			datastore.put(userEntity);
@@ -72,7 +95,6 @@ public class RightsManagementController
 			return false;
 		}
 	}
-	
 	
 	/* Shameful shameful singleton code */
 	private static RightsManagementController instance;
