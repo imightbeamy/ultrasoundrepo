@@ -15,10 +15,10 @@
 	String email = request.getParameter("user");
 
     String role_string = request.getParameter("level");
-	PrivilegeLevel requested_role;
+	PrivilegeLevel requested_role = null;
 	if(role_string != null) {
 		if(role_string.equals("resident")) {
-			requested_role = PrivilegeLevel.PENDING;
+			requested_role = PrivilegeLevel.RESIDENT;
 		}
 		else if(role_string.equals("attending")) {
 			requested_role = PrivilegeLevel.ATTENDING;
@@ -27,7 +27,7 @@
   	
   	RightsManagementController rm = RightsManagementController.getInstance();
   	rm.changePrivilegeLevel(email, requested_role);
-
+	PrivilegeLevel newlevel = rm.getPrivilegeLevel(email);
   	Properties props = new Properties();
     Session mailsesh = Session.getDefaultInstance(props, null);
     String msgBody = "You have been approved as a " + requested_role + 
@@ -37,7 +37,7 @@
         Message msg = new MimeMessage(mailsesh);
         msg.setFrom(new InternetAddress("ultrasoundrepo.reg@gmail.com", "Registration"));
         msg.addRecipient(Message.RecipientType.TO,
-                         new InternetAddress(email, requested_role.toString()));
+                         new InternetAddress("AmyCiav@gmail.com", requested_role.toString()));
         msg.setSubject("Approve of registration for ulrasoundrepo");
         msg.setText(msgBody);
         Transport.send(msg);
@@ -52,7 +52,7 @@
 
 <%=email %>
 <div class='span-10'>
-  <h2>Thank you for approving <%=email %>!</h2>
+  <h2>Thank you for approving <%=email %> as a <%=role_string%>!</h2>
   <p>
     An email has been sent to the approved use letting them know thay can use the system 
   </p>

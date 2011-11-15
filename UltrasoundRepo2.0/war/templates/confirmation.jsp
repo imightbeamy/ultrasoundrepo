@@ -18,7 +18,7 @@
 	
 	String role_string = request.getParameter("role");
 	
-  	User newuser = new User(email, PrivilegeLevel.ATTENDING, new Date(), first, last);
+  	User newuser = new User(email, PrivilegeLevel.PENDING, new Date(), first, last);
   	RightsManagementController rm = RightsManagementController.getInstance();
   	rm.addUser(newuser);
   	
