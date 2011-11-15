@@ -24,6 +24,18 @@ public class DataEntry
 	}
 	
 	
+	public DataEntry(ArrayList<Comment> comments, Patient patient, User author, BlobKey blobKey, String entrykey, Date timestamp)
+	{
+		super();
+		this.author = author;
+		this.timestamp = timestamp;
+		this.comments = comments;
+		this.patient = patient;
+		this.key = blobKey;
+		this.entrykey = entrykey;
+	}
+
+
 	public User getAuthor()
 	{
 		return author;
