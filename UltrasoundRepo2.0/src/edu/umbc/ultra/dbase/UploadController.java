@@ -44,8 +44,7 @@ public class UploadController extends HttpServlet {
     	String first = req.getParameter("first");
     	String last = req.getParameter("last");
     	try {
-    		DateFormat df = null;
-			DoB = df.parse(req.getParameter("DoB"));
+			DoB = DateFormat.parse(req.getParameter("DoB"));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,6 +58,7 @@ public class UploadController extends HttpServlet {
     	comments.add(new Comment(req.getParameter("resInterp"), user));
     	comments.add(new Comment(req.getParameter("attendInterp"), user));
     	DataEntry data = new DataEntry(comments, patient, user, blobKey, null);
+    	res.sendRedirect("/");
     }
 
 	public UploadController()
