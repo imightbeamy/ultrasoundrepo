@@ -50,7 +50,7 @@ public class UploadController extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	Gender gender = patient.stringToGender(req.getParameter("gender"));
+    	Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
     	patient = new Patient(first, last, DoB, gender);
     	User user = rightsController.getUser(UserServiceFactory.getUserService().getCurrentUser().getEmail());
     	ArrayList<Comment> comments = new ArrayList<Comment>();

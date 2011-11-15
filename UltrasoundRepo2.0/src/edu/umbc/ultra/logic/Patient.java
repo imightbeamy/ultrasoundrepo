@@ -46,13 +46,38 @@ public class Patient
 	{
 		return id;
 	}
-	public Gender stringToGender(String gender) {
-		if(gender.equals("MALE")) {
+	
+	public static String getGenderAsString(Gender gender)
+	{
+		if(gender == Gender.MALE)
+		{
+			return "MALE";
+		}
+		else if(gender == Gender.FEMALE)
+		{
+			return "FEMALE";
+		}
+		else if(gender == Gender.OTHER)
+		{
+			return "OTHER";
+		}
+		return null;
+	}
+	
+	public static Gender getGenderFromString(String in)
+	{
+		if(in.equals("MALE"))
+		{
 			return Gender.MALE;
-		} else if(gender.equals("FEMALE")) {
+		}
+		else if(in.equals("FEMALE"))
+		{
 			return Gender.FEMALE;
-		} else {
+		}
+		else if(in.equals("OTHER"))
+		{
 			return Gender.OTHER;
 		}
+		return null;
 	}
 }
