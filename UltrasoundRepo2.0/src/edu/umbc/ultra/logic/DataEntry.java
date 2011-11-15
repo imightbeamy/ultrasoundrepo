@@ -14,12 +14,13 @@ public class DataEntry
 	private BlobKey key;
 	private String entrykey;
 
-	public DataEntry(ArrayList<Comment> comments, Patient patient, User author) {
+	public DataEntry(ArrayList<Comment> comments, Patient patient, User author, BlobKey key, String entryKey) {
 		this.comments = comments;
 		this.patient = patient;
 		this.author = author;
 		this.timestamp = new Date();
-		this.entrykey = "thisisakey";
+		this.entrykey = entryKey;
+		this.key = key;
 	}
 	
 	
