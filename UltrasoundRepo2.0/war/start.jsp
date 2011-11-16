@@ -32,6 +32,7 @@
 				files.put("results", "results.jsp");
 				files.put("upload", "upload.jsp");
 				files.put("viewrecord", "viewrecord.jsp");
+				files.put("approve", "approve.jsp");
 			}
 		}
 		else {
