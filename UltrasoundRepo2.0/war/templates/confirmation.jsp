@@ -8,7 +8,7 @@
 	String first = request.getParameter("first");
 	String last = request.getParameter("last");
 	String requested_role = request.getParameter("role");
-  	User newuser = new User(email, PrivilegeLevel.ATTENDING, new Date(), first, last);
+  	User newuser = new User(email, PrivilegeLevel.PENDING, new Date(), first, last);
   	RightsManagementController rm = RightsManagementController.getInstance();
   	rm.addUser(newuser);
 %>
