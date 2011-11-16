@@ -7,6 +7,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -80,24 +81,93 @@ public class SearchController
 	
 	public ArrayList<DataEntry> searchForEntries(String firstName, String lastName, Gender gender, String chiefComplaint, String keywords, String userEmail)
 	{
-		Query query = new Query("DataEntry");
-		if(userEmail != null)
+		ArrayList<DataEntry> results = null;
+		
+		if(firstName != null || lastName != null || gender != null)
 		{
-			query.setAncestor(KeyFactory.createKey("User", userEmail));
+			return searchForPatients(firstName, lastName, gender, chiefComplaint, keywords, userEmail);
 		}
 		
-		
-		return null;
+		return searchDataEntriesByPatientKey(null, chiefComplaint, keywords, KeyFactory.createKey("User", userEmail));
 	}
-
-	public ArrayList<DataEntry> searchForPatients(String firstName, String lastName, Gender gender, String chiefComplaint, String keyWords, String userEmail)
+	
+	private ArrayList<DataEntry> searchForPatients(String firstName, String lastName, Gender gender, String chiefComplaint, String keyWords, String userEmail)
 	{
+		ArrayList<DataEntry> results = new ArrayList<DataEntry>();
 		Query query = new Query("Patient");
+		
+		// Add filter by user
 		if(userEmail != null)
 		{
 			query.setAncestor(KeyFactory.createKey("User", userEmail));
 		}
 		
+		// Add filters by patient
+		if(firstName != null)
+		{
+			query.addFilter("FirstName", FilterOperator.EQUAL, firstName);
+		}
+		if(lastName != null)
+		{
+			query.addFilter("LastName", FilterOperator.EQUAL, lastName);
+		}
+		if(gender != null)
+		{
+			query.addFilter("Gender", FilterOperator.EQUAL, Patient.getGenderAsString(gender));
+		}
+		
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		PreparedQuery pq = datastore.prepare(query);
+		
+		for(Entity patientEntity : pq.asIterable())
+		{
+			ArrayList<DataEntry> entries = searchDataEntriesByPatientKey(patientEntity.getKey(), chiefComplaint, keyWords, KeyFactory.createKey("User", userEmail));
+			results.addAll(entries);
+		}
+		
+		return results;
+	}
+	
+	private ArrayList<DataEntry> searchDataEntriesByPatientKey(Key patientKey, String chiefComplaint, String keywords, Key userKey)
+	{
+		// Do two queries, one for chief complaint and one for the other keywords
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		ArrayList<Key> dataEntryKeys = new ArrayList<Key>();
+		
+		if(chiefComplaint != null)
+		{
+			Query query = new Query("Keyword").setAncestor(patientKey == null ? userKey : patientKey);
+			query.addFilter("Type", FilterOperator.EQUAL, "CC");
+			query.addFilter("Word", FilterOperator.EQUAL, chiefComplaint.toLowerCase());
+			
+			PreparedQuery pq = datastore.prepare(query);
+			for(Entity kwe : pq.asIterable())
+			{
+				Key dataEntityKey = kwe.getParent().getParent();
+				if(!dataEntryKeys.contains(dataEntityKey))
+				{
+					dataEntryKeys.add(dataEntityKey);
+				}
+			}
+		}
+		
+		if(keywords != null)
+		{
+			Query query = new Query("Keyword").setAncestor(patientKey == null ? userKey : patientKey);
+			query.addFilter("Type", FilterOperator.EQUAL, "KW");
+			query.addFilter("Word", FilterOperator.IN, keywords.toLowerCase());
+			
+			PreparedQuery pq = datastore.prepare(query);
+			for(Entity kwe : pq.asIterable())
+			{
+				Key dataEntityKey = kwe.getParent().getParent();
+				if(!dataEntryKeys.contains(dataEntityKey))
+				{
+					dataEntryKeys.add(dataEntityKey);
+				}
+			}
+		}
 		
 		return null;
 	}
