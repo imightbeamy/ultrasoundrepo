@@ -39,6 +39,7 @@
 			files.put("home", "home.jsp");
 			files.put("register", "register.jsp");
 			files.put("confirmation", "confirmation.jsp");
+			files.put("autoreg", "regtest.jsp");
 		}
 
 	  	String[] url = request.getRequestURL().toString().split("/");
