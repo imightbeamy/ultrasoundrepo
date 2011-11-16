@@ -126,7 +126,7 @@ public class UploadController extends HttpServlet {
 		patientEntity.setProperty("FirstName", patient.getFirstName());
 		patientEntity.setProperty("LastName", patient.getLastName());
 		patientEntity.setProperty("DOB", patient.getDob());
-		patientEntity.setProperty("Gender", patient.getGender());
+		patientEntity.setProperty("Gender", Patient.getGenderAsString(patient.getGender()));
 		patientEntity.setProperty("ID", patient.getId());
 		
 		// Create and add DataEntry entity with a generated unique key, specifying the parent key as the user

@@ -14,6 +14,15 @@ public class Patient
 	
 	
 	
+	public Patient(String firstName, String lastName, Date dob, Gender gender, String id)
+	{
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.dob = dob;
+		this.gender = gender;
+		this.id = id;
+	}
 	public Patient(String firstName, String lastName, Date dob, Gender gender)
 	{
 		this.firstName = firstName;
