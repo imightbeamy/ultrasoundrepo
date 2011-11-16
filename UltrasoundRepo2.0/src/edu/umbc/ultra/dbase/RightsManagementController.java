@@ -73,7 +73,7 @@ public class RightsManagementController
 		return putUser(user);
 	}
 	
-	private static boolean putUser(User user)
+	private boolean putUser(User user)
 	{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		

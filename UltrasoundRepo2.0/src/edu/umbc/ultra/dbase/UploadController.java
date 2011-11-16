@@ -33,6 +33,8 @@ import edu.umbc.ultra.logic.User;
 /* Making this class and other controller classes singletons...didn't want to, don't really have a choice */
 public class UploadController extends HttpServlet {
 
+	private static int MIN_KEYWORD_LENGTH = 4;
+	
 	private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     
     public void doPost(HttpServletRequest req, HttpServletResponse res)
@@ -134,22 +136,49 @@ public class UploadController extends HttpServlet {
 		dataEntity.setProperty("timestamp", entry.getTimestamp());
 		dataEntity.setProperty("blobKey", entry.getBlobKey());
 		dataEntity.setProperty("uniqueID", dataEntity.getKey().hashCode());
-		// STUB: No facilitation of blob storage yet
-		//Half assed attempt at adding blob storage.
-//		Entity blobEntity = new Entity("BlobEntry", dataEntity.getKey());
-//		blobEntity.setProperty("Video", lastBlobKey);
 		
 		// Add each comment using a system generated key for each
-		for(Comment comment: comments)
+		for(int i = 0; i < comments.size(); i++)
 		{
 			Entity commentEntity = new Entity("Comment", dataEntity.getKey());
-			commentEntity.setProperty("Text", comment.getContent());
+			commentEntity.setProperty("Text", comments.get(i).getContent());
 			// Author entry consists of user's google account
-			commentEntity.setProperty("Author", comment.getAuthor().getGoogleUser());
-			commentEntity.setProperty("Timestamp", comment.getTimestamp());
+			commentEntity.setProperty("Author", comments.get(i).getAuthor().getGoogleUser());
+			commentEntity.setProperty("Timestamp", comments.get(i).getTimestamp());
+			ArrayList<String> keywords = extractKeywords(comments.get(i).getContent());
+			for(String keyword : keywords)
+			{
+				Entity kwEntity = new Entity("Keyword", commentEntity.getKey());
+				kwEntity.setProperty("Word", keyword);
+				// If this is a chief complaint (first comment), set it as such
+				if(i == 0)
+				{
+					kwEntity.setProperty("Type", "CC");
+				}
+				else
+				{
+					kwEntity.setProperty("Type", "KW");
+				}
+			}
 		}
 		
 		return patientEntity;
+	}
+	
+	private ArrayList<String> extractKeywords(String commentText)
+	{
+		ArrayList<String> results = new ArrayList<String>();
+		
+		String[] words = commentText.split("\\s+");
+		for(String word : words)
+		{
+			if(word.length() >= MIN_KEYWORD_LENGTH)
+			{
+				results.add(word.toLowerCase());
+			}
+		}
+		
+		return results;
 	}
 	
 	/* Shameful shameful singleton code */
