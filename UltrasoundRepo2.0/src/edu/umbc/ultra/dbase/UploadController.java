@@ -159,6 +159,7 @@ public class UploadController extends HttpServlet {
 				{
 					kwEntity.setProperty("Type", "KW");
 				}
+				System.out.println("Adding keyword \"" + keyword + "\"");
 			}
 		}
 		

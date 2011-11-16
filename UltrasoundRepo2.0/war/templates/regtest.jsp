@@ -13,7 +13,7 @@
 
 <%
 	String email = request.getUserPrincipal().toString();	
-  	User newuser = new User(email, PrivilegeLevel.RESIDENT, new Date(), "test", "Test");
+  	User newuser = new User(email, PrivilegeLevel.ATTENDING, new Date(), "test", "Test");
   	RightsManagementController rm = RightsManagementController.getInstance();
   	rm.addUser(newuser);
 %>

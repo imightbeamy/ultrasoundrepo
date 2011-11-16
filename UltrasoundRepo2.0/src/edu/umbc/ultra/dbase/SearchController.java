@@ -7,6 +7,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -80,15 +81,13 @@ public class SearchController
 	}
 	
 	public ArrayList<DataEntry> searchForEntries(String firstName, String lastName, Gender gender, String chiefComplaint, String keywords, String userEmail)
-	{
-		ArrayList<DataEntry> results = null;
-		
+	{		
 		if(firstName != null || lastName != null || gender != null)
 		{
 			return searchForPatients(firstName, lastName, gender, chiefComplaint, keywords, userEmail);
 		}
 		
-		return searchDataEntriesByPatientKey(null, chiefComplaint, keywords, KeyFactory.createKey("User", userEmail));
+		return searchDataEntriesByPatientKey(null, chiefComplaint, keywords, (userEmail == null || userEmail == "") ? null : KeyFactory.createKey("User", userEmail));
 	}
 	
 	private ArrayList<DataEntry> searchForPatients(String firstName, String lastName, Gender gender, String chiefComplaint, String keyWords, String userEmail)
@@ -97,17 +96,17 @@ public class SearchController
 		Query query = new Query("Patient");
 		
 		// Add filter by user
-		if(userEmail != null)
+		if(userEmail != null && userEmail != "")
 		{
 			query.setAncestor(KeyFactory.createKey("User", userEmail));
 		}
 		
 		// Add filters by patient
-		if(firstName != null)
+		if(firstName != null && firstName != "")
 		{
 			query.addFilter("FirstName", FilterOperator.EQUAL, firstName);
 		}
-		if(lastName != null)
+		if(lastName != null && lastName != "")
 		{
 			query.addFilter("LastName", FilterOperator.EQUAL, lastName);
 		}
@@ -133,11 +132,20 @@ public class SearchController
 		// Do two queries, one for chief complaint and one for the other keywords
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
+		ArrayList<DataEntry> results = new ArrayList<DataEntry>();
 		ArrayList<Key> dataEntryKeys = new ArrayList<Key>();
 		
-		if(chiefComplaint != null)
+		if(chiefComplaint != null && chiefComplaint != "")
 		{
-			Query query = new Query("Keyword").setAncestor(patientKey == null ? userKey : patientKey);
+			Query query = new Query("Keyword");
+			if(patientKey != null)
+			{
+				query.setAncestor(patientKey);
+			}
+			else if(userKey != null)
+			{
+				query.setAncestor(userKey);
+			}
 			query.addFilter("Type", FilterOperator.EQUAL, "CC");
 			query.addFilter("Word", FilterOperator.EQUAL, chiefComplaint.toLowerCase());
 			
@@ -152,15 +160,32 @@ public class SearchController
 			}
 		}
 		
-		if(keywords != null)
+		if(keywords != null && keywords != "")
 		{
-			Query query = new Query("Keyword").setAncestor(patientKey == null ? userKey : patientKey);
+			Query query = new Query("Keyword");
+			if(patientKey != null)
+			{
+				query.setAncestor(patientKey);
+			}
+			else if(userKey != null)
+			{
+				query.setAncestor(userKey);
+			}
 			query.addFilter("Type", FilterOperator.EQUAL, "KW");
-			query.addFilter("Word", FilterOperator.IN, keywords.toLowerCase());
+			ArrayList<String> kwc = new ArrayList<String>();
+			System.out.println("Splitting keywords...");
+			for(String kw : keywords.toLowerCase().split("\\s+"))
+			{
+				kwc.add(kw);
+				System.out.println("\"" + kw + "\"");
+			}
+			query.addFilter("Word", FilterOperator.IN, kwc);
 			
 			PreparedQuery pq = datastore.prepare(query);
+			int count = 0;
 			for(Entity kwe : pq.asIterable())
 			{
+				System.out.println("Processing kwr " + (++count));
 				Key dataEntityKey = kwe.getParent().getParent();
 				if(!dataEntryKeys.contains(dataEntityKey))
 				{
@@ -169,7 +194,20 @@ public class SearchController
 			}
 		}
 		
-		return null;
+		for(Key key : dataEntryKeys)
+		{
+			try
+			{
+				Entity dataEntity = datastore.get(key);
+				DataEntry de = getDataEntryFromEntity(dataEntity);
+				results.add(de);
+			}
+			catch (EntityNotFoundException e)
+			{
+			}
+		}
+		
+		return results;
 	}
 	
 	//Gender being null means search for any gender
