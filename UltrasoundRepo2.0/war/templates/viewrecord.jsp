@@ -1,21 +1,36 @@
+<%@ page import="edu.umbc.ultra.dbase.SearchController" %>
+<%@ page import="edu.umbc.ultra.logic.Patient.Gender" %>
+<%@ page import="edu.umbc.ultra.logic.Patient" %>
+<%@ page import="edu.umbc.ultra.logic.DataEntry" %>
+<%@ page import="edu.umbc.ultra.logic.Comment" %>
 <div>
+<%
+    String key = request.getParameter("entry");
+    SearchController sc = SearchController.getInstance();
+	DataEntry de = sc.getEntryByID(key);
+	if( de == null ) {
+%>
+	No record
+<%
+	}
+	else {
+	Patient patient = de.getPatient();
+%>
   <h2>Video Record</h2>
-   <div class='span-12'>
-     
-     
+   <div class='span-12'>     
      <h3>Patient Information</h3>
      <table><tbody>
        <tr>
-         <td>Name</td><td>{{ record.firstname }} {{ record.lastname }}</td>
+         <td>Name</td><td><%= patient.getFirstName()  %> <%= patient.getLastName()  %></td>
        </tr>
        <tr>
-         <td>DoB</td><td>{{ record.dob }}</td>
+         <td>DoB</td><td><%= patient.getDob().toString()  %></td>
        </tr>
        <tr>
-         <td>Gender</td><td>{{ record.Gender }}</td>
+         <td>Gender</td><td><%= patient.getGender()  %></td>
        </tr>
        <tr>
-         <td>ID</td><td>{{ record.p_id }}</td>
+         <td>ID</td><td><%= patient.getId()  %></td>
        </tr>
      </tbody></table>
      
@@ -23,35 +38,25 @@
      <h3>Video Information</h3> 
      <table><tbody>
        <tr>
-         <td>Upload Date</td><td>{{ record.up_date }}</td>
+         <td>Upload Date</td><td><%=de.getTimestamp()%></td>
        </tr>
        <tr>
-         <td>Upload ID</td><td>{{ record.up_id }}</td>
-       </tr>
-     </tbody></table>
-     
-     
-     <h3>Visit Information</h3> 
-     <table><tbody>
-       <tr>
-         <td>Complaint</td><td>{{ record.complaint }}</td>
-       </tr>
-       <tr>
-         <td>Reason for study</td><td>{{ record.reason }}</td>
+         <td>Upload ID</td><td><%=key%></td>
        </tr>
      </tbody></table>
      
      <h3>Comments and Interpretations</h3> 
      <table><tbody>
+      <%
+     	for(Comment c: de.getComments()) { %> 
        <tr>
-         <td>User1<br>(type)</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mauris ipsum, elementum ut venenatis sed, aliquet venenatis dui. Integer in orci at ante vehicula convallis. Fusce quis eros risus. Quisque cursus tortor egestas magna imperdiet fermentum. Pellentesque vitae velit dui. Sed nec adipiscing nisi. In congue tincidunt turpis, nec sollicitudin eros fermentum ut.</td>
+         <td>Complaint</td><td><%=c.getContent()%></td>
        </tr>
-       <tr>
-         <td>User2<br>(type)</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mauris ipsum, elementum ut venenatis sed, aliquet venenatis dui. Integer in orci at ante vehicula convallis. Fusce quis eros risus. Quisque cursus tortor egestas magna imperdiet fermentum. Pellentesque vitae velit dui. Sed nec adipiscing nisi. In congue tincidunt turpis, nec sollicitudin eros fermentum ut.</td>
-       </tr>
+       <%}%>
      </tbody></table>
    </div>
    <div class='span-6'>
      <h3><a>Download File</a></h3>
   </dvi>
 </div>
+<%}%>

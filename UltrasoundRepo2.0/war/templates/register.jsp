@@ -5,14 +5,14 @@
     <label for='firstName'>First name</label>
   </div>
   <div class='span-18'>
-    <input type=text name='firstName' id='firstName' size=30 maxlength=75 >
+    <input type=text name='firstName' id='firstName' size=30 maxlength=30 >
   </div>
   
   <div class='span-4 form-label'>
     <label for='lastName'>Last Name</label>
   </div>
   <div class='span-18'>
-    <input type=text name='lastName' id='lastName' size=30 maxlength=75 >
+    <input type=text name='lastName' id='lastName' size=30 maxlength=30 >
   </div>
   
   <div class='span-4 form-label'>
