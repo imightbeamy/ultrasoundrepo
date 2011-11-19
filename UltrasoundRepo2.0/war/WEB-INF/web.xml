@@ -37,5 +37,4 @@
         <include path="/images/**" />
         <exclude path="/images/**" />
   </static-files>
-
 </web-app>
