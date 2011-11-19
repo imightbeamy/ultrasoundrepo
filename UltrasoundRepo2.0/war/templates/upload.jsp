@@ -18,21 +18,21 @@
     <label for='first'>Patient First Name</label>
   </div>
   <div class='span-18'>
-    <input type=text name='first' id='first' size=30 maxlength=75 >
+    <input type=text name='first' id='first' size=30 maxlength=30 >
   </div>
   
   <div class='span-4 form-label'>
     <label for='last'>Patient Last Name</label>
   </div>
   <div class='span-18'>
-    <input type=text name='last' id='last' size=30 maxlength=75 >
+    <input type=text name='last' id='last' size=30 maxlength=30 >
   </div>
   
   <div class='span-4 form-label'>
     <label for='DoB'>Patient DoB</label>
   </div>
   <div class='span-18'>
-    <input type=text name='DoB' id='DoB' size=30 maxlength=75 >
+    <input type=text name='DoB' id='DoB' size=30 maxlength=30 >
   </div>
   
   <div class='span-4 form-label'>
@@ -41,7 +41,7 @@
   <div class='span-18 last'>
       <input type=radio name="gender"> 
       <label for='male'>Male</label><br>
-      <input type=radio name="gender">
+      <input type=radio name="gender" checked="checked">
       <label for='female'>Female</label><br>
       <input type=radio name="gender">
       <label for='other'>Other</label><br>
@@ -58,7 +58,7 @@
     <label for='reason'>Reason for study	</label>
   </div>
   <div class='span-18'>
-    <textarea name='reason' rows='3' cols="30" ></textarea>
+    <textarea name='reason' rows='3' cols="30"></textarea>
   </div>
 
   <div class='span-4 form-label'>

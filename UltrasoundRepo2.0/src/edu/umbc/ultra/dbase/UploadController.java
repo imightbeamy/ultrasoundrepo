@@ -42,13 +42,31 @@ public class UploadController extends HttpServlet {
     	RightsManagementController rightsController = RightsManagementController.getInstance();
         Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
         BlobKey blobKey = blobs.get("upload");
+        if (blobKey == null) {
+    		redirect(res, blobKey);
+    		return;
+    	}
+        //System.out.println(req.getParameter("upload"));
     	Patient patient = null;
     	Date DoB = null;
     	String first = req.getParameter("first");
+    	if ((first == null) || (first.length() == 0)) {
+    		redirect(res, blobKey);
+    		return;
+    	}
     	String last = req.getParameter("last");
+    	if ((last == null) || (last.length() == 0)) {
+    		redirect(res, blobKey);
+    		return;
+    	}
     	try {
     		DateFormat df = new SimpleDateFormat("mm/dd/yyyy");
-			DoB = df.parse(req.getParameter("DoB"));
+    		if ((req.getParameter("DoB") == null) || (req.getParameter("DoB").length() == 0)) {
+        		redirect(res, blobKey);
+        		return;
+        	} else {
+        		DoB = df.parse(req.getParameter("DoB"));
+        	}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			DoB = new Date();
@@ -57,14 +75,38 @@ public class UploadController extends HttpServlet {
     	Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
     	patient = new Patient(first, last, DoB, gender);
     	//UserService us = UserServiceFactory.getUserService();
-    	User user = new User();//rightsController.getUser(us.getCurrentUser().getEmail());
+    	User user = rightsController.getUser("test@example.com");
     	ArrayList<Comment> comments = new ArrayList<Comment>();
-    	comments.add(new Comment(req.getParameter("complaint"), user));
-    	comments.add(new Comment(req.getParameter("reason"), user));
+    	if ((req.getParameter("complaint") == null) || (req.getParameter("complaint").length() == 0)) {
+    		redirect(res, blobKey);
+    		return;
+    	} else {
+    		comments.add(new Comment(req.getParameter("complaint"), user));
+    	}
+    	if ((req.getParameter("reason") == null) || (req.getParameter("reason").length() == 0)) {
+    		redirect(res, blobKey);
+    		return;
+    	} else {
+    		comments.add(new Comment(req.getParameter("reason"), user));
+    	}
+    	String rInterp = req.getParameter("resInterp");
+    	String aInterp = req.getParameter("attendInterp");
+    	
+    	if (((aInterp == null) || (aInterp.length() == 0)) && 
+    		((rInterp == null) || (rInterp.length() == 0))) {
+    		redirect(res, blobKey);
+    		return;
+    	} else if ((aInterp == null) || (aInterp.length() == 0)) {
+    		aInterp = "No Attending Physician interpretation.";
+    	} else if ((rInterp == null) || (rInterp.length() == 0)) {
+    		rInterp = "No Resident Physician interpretation.";
+    	}
+    	
     	comments.add(new Comment(req.getParameter("resInterp"), user));
     	comments.add(new Comment(req.getParameter("attendInterp"), user));
     	DataEntry data = new DataEntry(comments, patient, user, blobKey, null);
-    	res.sendRedirect("/viewrecord?entry="+blobKey);
+    	UploadEntry(data);
+    	res.sendRedirect("/viewrecord?entry="+data.getKey());
     }
 
 	public UploadController()
@@ -180,6 +222,11 @@ public class UploadController extends HttpServlet {
 		}
 		
 		return results;
+	}
+	
+	private void redirect(HttpServletResponse res, BlobKey blobKey) throws IOException {
+		if (blobKey != null) blobstoreService.delete(blobKey);
+		res.sendRedirect("/upload");
 	}
 	
 	/* Shameful shameful singleton code */
