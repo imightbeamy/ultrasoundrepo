@@ -15,7 +15,6 @@
 	String email = request.getUserPrincipal().toString();
 	String first = request.getParameter("first");
 	String last = request.getParameter("last");
-	
 	String role_string = request.getParameter("role");
 	
   	User newuser = new User(email, PrivilegeLevel.ATTENDING, new Date(), first, last);

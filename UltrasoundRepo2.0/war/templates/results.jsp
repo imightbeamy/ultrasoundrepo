@@ -29,7 +29,7 @@
 	String user = request.getParameter("user");
 	
 	SearchController sc = SearchController.getInstance();
-	ArrayList<DataEntry> results = sc.searchForEntriesTEST(first, 
+	ArrayList<DataEntry> results = sc.searchForEntries(first, 
 														   last, 
 													       gender,
 													       complaint, 
