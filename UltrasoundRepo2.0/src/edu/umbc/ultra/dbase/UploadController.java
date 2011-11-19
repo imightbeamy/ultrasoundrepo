@@ -50,17 +50,23 @@ public class UploadController extends HttpServlet {
     	Patient patient = null;
     	Date DoB = null;
     	String first = req.getParameter("first");
+    	
+    	//Makes sure there is a valid value in patient first name.
     	if ((first == null) || (first.length() == 0)) {
     		redirect(res, blobKey);
     		return;
     	}
     	String last = req.getParameter("last");
+    	
+    	//Makes sure there is a valid value in patient last name.
     	if ((last == null) || (last.length() == 0)) {
     		redirect(res, blobKey);
     		return;
     	}
     	try {
     		DateFormat df = new SimpleDateFormat("mm/dd/yyyy");
+    		
+    		//Make sure there is a value in the DoB field before trying to parse it.
     		if ((req.getParameter("DoB") == null) || (req.getParameter("DoB").length() == 0)) {
         		redirect(res, blobKey);
         		return;
@@ -75,14 +81,21 @@ public class UploadController extends HttpServlet {
     	Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
     	patient = new Patient(first, last, DoB, gender);
     	//UserService us = UserServiceFactory.getUserService();
+    	
+    	//Just setting the user to test for testing purposes.
+    	//TODO: Get the actual current user.
     	User user = rightsController.getUser("test@example.com");
     	ArrayList<Comment> comments = new ArrayList<Comment>();
+    	
+    	//Makes sure there is a value in complaint.
     	if ((req.getParameter("complaint") == null) || (req.getParameter("complaint").length() == 0)) {
     		redirect(res, blobKey);
     		return;
     	} else {
     		comments.add(new Comment(req.getParameter("complaint"), user));
     	}
+    	
+    	//Makes sure there is a value in reason.
     	if ((req.getParameter("reason") == null) || (req.getParameter("reason").length() == 0)) {
     		redirect(res, blobKey);
     		return;
@@ -92,6 +105,8 @@ public class UploadController extends HttpServlet {
     	String rInterp = req.getParameter("resInterp");
     	String aInterp = req.getParameter("attendInterp");
     	
+    	//Tests to make sure that there is an entry in the Resident or Attending physician's
+    	//interpretation textarea.
     	if (((aInterp == null) || (aInterp.length() == 0)) && 
     		((rInterp == null) || (rInterp.length() == 0))) {
     		redirect(res, blobKey);
