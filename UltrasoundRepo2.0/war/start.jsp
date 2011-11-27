@@ -24,7 +24,7 @@
 		if(user != null) {
 		    status = user.getPrivilegeLevel();
 			if(status == PrivilegeLevel.RESIDENT) {
-				files.put("dashboard", "dashboard2.jsp");
+				files.put("dashboard", "dashboard.jsp");
 				files.put("upload", "upload.jsp");
 			} else if(status == PrivilegeLevel.ATTENDING) {
 				files.put("dashboard", "dashboard.jsp");

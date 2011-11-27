@@ -1,5 +1,14 @@
+<%@ page import="edu.umbc.ultra.logic.User" %>
+<%@ page import="edu.umbc.ultra.logic.User.PrivilegeLevel" %>
+<%@ page import="edu.umbc.ultra.dbase.RightsManagementController" %>
 
+<%
+	String userEmail = request.getUserPrincipal().toString();
+	User user = RightsManagementController.getInstance().getUser(userEmail);
+	PrivilegeLevel role = user.getPrivilegeLevel();
+%>
 <div class="span-12 last">
+  <% if (role == PrivilegeLevel.ATTENDING) { %>
   <div>
     <a href='/search' ><h2>Search</h2></a>
     <form name='imgsettings' action='/results' method="get">
@@ -9,6 +18,8 @@
     </form>
     <a href='/search'>Advanced Search</a>
   </div>
+  
+  <%}%>
   <div>
     <br>    <br>    <br>
     <a href='/upload' ><h2>Upload a Video</h2></a>
