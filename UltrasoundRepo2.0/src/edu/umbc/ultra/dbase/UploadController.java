@@ -54,7 +54,7 @@ public class UploadController extends HttpServlet {
 			DoB = new Date();
 			//e.printStackTrace();
 		}
-    	Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
+    	Gender gender = Patient.getGenderFromString( req.getParameter("gender"));
     	patient = new Patient(first, last, DoB, gender);
     	//UserService us = UserServiceFactory.getUserService();
     	User user = new User();//rightsController.getUser(us.getCurrentUser().getEmail());
