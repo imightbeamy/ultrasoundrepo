@@ -5,8 +5,7 @@ import java.util.Date;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
-public class DataEntry
-{
+public class DataEntry {
 	private User author;
 	private Date timestamp;
 	private ArrayList<Comment> comments;
@@ -14,7 +13,8 @@ public class DataEntry
 	private BlobKey key;
 	private String entrykey;
 
-	public DataEntry(ArrayList<Comment> comments, Patient patient, User author, BlobKey key, String entryKey) {
+	public DataEntry(ArrayList<Comment> comments, Patient patient, User author,
+			BlobKey key, String entryKey) {
 		this.comments = comments;
 		this.patient = patient;
 		this.author = author;
@@ -22,10 +22,9 @@ public class DataEntry
 		this.entrykey = entryKey;
 		this.key = key;
 	}
-	
-	
-	public DataEntry(ArrayList<Comment> comments, Patient patient, User author, BlobKey blobKey, String entrykey, Date timestamp)
-	{
+
+	public DataEntry(ArrayList<Comment> comments, Patient patient, User author,
+			BlobKey blobKey, String entrykey, Date timestamp) {
 		super();
 		this.author = author;
 		this.timestamp = timestamp;
@@ -35,29 +34,27 @@ public class DataEntry
 		this.entrykey = entrykey;
 	}
 
-
-	public User getAuthor()
-	{
+	public User getAuthor() {
 		return author;
 	}
-	public Date getTimestamp()
-	{
+
+	public Date getTimestamp() {
 		return timestamp;
 	}
-	public ArrayList<Comment> getComments()
-	{
+
+	public ArrayList<Comment> getComments() {
 		return comments;
 	}
-	public Patient getPatient()
-	{
+
+	public Patient getPatient() {
 		return patient;
 	}
-	
-	public BlobKey getBlobKey()
-	{
+
+	public BlobKey getBlobKey() {
 		return key;
 	}
+
 	public String getKey() {
-		return entrykey;	
+		return entrykey;
 	}
 }
