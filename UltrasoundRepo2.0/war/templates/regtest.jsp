@@ -12,5 +12,4 @@
 <%=email %>
 <div class='span-10'>
   <h2>You have been added as a resident</h2>
-
 </div>

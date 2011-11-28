@@ -30,17 +30,15 @@
 	
 	SearchController sc = SearchController.getInstance();
 	ArrayList<DataEntry> results = sc.searchForEntries(first, 
-														   last, 
-													       gender,
-													       complaint, 
-													       keyword,
-													       user);										
+														last, 
+														gender,
+														complaint,
+														keyword,
+														user);										
 %>
 
 <div>
   <h2>Search Results (<%=results.size() %>)</h2>
- 
- 	
   <%
   	for(DataEntry de: results) {
   		Patient p = de.getPatient();
@@ -48,19 +46,19 @@
     <div class='span-20'>
       <table><tbody>
         <tr>
-          <td>Patient Name</td><td><%= p.getFirstName()  %> <%= p.getLastName()  %></td>
+          <td>Patient Name</td><td> <%=p.getFirstName()%> <%=p.getLastName()%> </td>
         </tr>
         <tr>
-          <td>Patient DoB</td><td><%= p.getDob().toString()  %></td>
+          <td>Patient DoB</td><td> <%=p.getDob().toString()%> </td>
         </tr>
         <tr>
-          <td>Patient Gender</td><td><%= p.getGender()  %></td>
+          <td>Patient Gender</td><td> <%=p.getGender()%></td>
         </tr>
         <tr>
-          <td>Upload Date</td><td><%= de.getTimestamp()  %></td>
+          <td>Upload Date</td><td><%=de.getTimestamp()%></td>
         </tr>
       </tbody></table>
-      <a class='viewrecord' href='/viewrecord?entry=<%= de.getKey() %>'>View full record </a>
+      <a class='viewrecord' href='/viewrecord?entry=<%=de.getKey()%>'>View full record </a>
     </div>
 <% } %>
 

@@ -21,16 +21,16 @@
      <h3>Patient Information</h3>
      <table><tbody>
        <tr>
-         <td>Name</td><td><%= patient.getFirstName()  %> <%= patient.getLastName()  %></td>
+         <td>Name</td><td><%=patient.getFirstName()%> <%=patient.getLastName()%></td>
        </tr>
        <tr>
-         <td>DoB</td><td><%= patient.getDob().toString()  %></td>
+         <td>DoB</td><td><%=patient.getDob().toString()%></td>
        </tr>
        <tr>
-         <td>Gender</td><td><%= patient.getGender()  %></td>
+         <td>Gender</td><td><%=patient.getGender()%></td>
        </tr>
        <tr>
-         <td>ID</td><td><%= patient.getId()  %></td>
+         <td>ID</td><td><%=patient.getId()%></td>
        </tr>
      </tbody></table>
      
@@ -57,6 +57,6 @@
    </div>
    <div class='span-6'>
      <h3><a>Download File</a></h3>
-  </dvi>
+   </div>
 </div>
 <%}%>

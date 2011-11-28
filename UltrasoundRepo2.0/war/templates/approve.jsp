@@ -47,13 +47,16 @@
         msg.setText(msgBody);
         Transport.send(msg);
 
-    } catch (AddressException e) { %>
-        <%=e.getMessage()%>
-<%   } catch (MessagingException e) { %>
-        <%=e.getMessage()%>
-   <% }
-  	
+    } 
+    catch (AddressException e) { 
 %>
+        <%=e.getMessage()%>
+<%  
+	{ 
+	catch (MessagingException e) { 
+%>
+        <%=e.getMessage()%>
+<%  } %>
 
 <div class='span-10'>
   <h2><%=action %> <%=email %> as a <%=role_string%>!</h2>
