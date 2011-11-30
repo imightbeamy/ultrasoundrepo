@@ -1,6 +1,5 @@
-
 <h2>Please fill out all information to register for the system.</h2>
-<form name='imgsettings' action='/confirmation' method="post">
+<form name='registration' action='/confirmation' method='post'>
   <div class='span-4 form-label'>
     <label for='firstName'>First name</label>
   </div>
@@ -19,14 +18,14 @@
     <label for='role'>Role</label>
   </div>
   <div class='span-18 last'>
-      <input type='radio' name="role" value="resident" id='resident-radio' checked onClick='change_form("role");' > 
+      <input type='radio' name='role' value='resident' id='resident-radio' checked' > 
       <label for='resident-radio'>Resident Physician</label><br>
-      <input type='radio' name="role" value="attending" id='attending-radio' onClick='change_form("role");' >
+      <input type='radio' name='role' value='attending' id='attending-radio' >
       <label for='attending-radio'>Attending Physician</label><br>
   </div>
   
   <div class='prepend-2 span-4 form-label'>
-    <br>
-    <input type="submit" value="Register" />
+    <br />
+    <input type='submit' value='Register' />
   </div>
 </form>

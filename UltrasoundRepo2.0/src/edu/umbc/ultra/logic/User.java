@@ -46,11 +46,6 @@ public class User {
 		return lastName;
 	}
 
-	public String getUserID() {
-		// get id from googleUser this is for testing
-		return "thisisanid";
-	}
-
 	public static User findUser(String userEmail) {
 		/*
 		 * User user = null; for(int i = 0; i < dataStore.userCount; i++) {
@@ -68,11 +63,14 @@ public class User {
 	public static String getPrivilegeLevelAsString(PrivilegeLevel pLevel) {
 		if (pLevel == PrivilegeLevel.ATTENDING) {
 			return "ATTENDING";
-		} else if (pLevel == PrivilegeLevel.RESIDENT) {
+		} 
+		else if (pLevel == PrivilegeLevel.RESIDENT) {
 			return "RESIDENT";
-		} else if (pLevel == PrivilegeLevel.PENDING) {
+		} 
+		else if (pLevel == PrivilegeLevel.PENDING) {
 			return "PENDING";
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -80,11 +78,14 @@ public class User {
 	public static PrivilegeLevel getPrivilegeLevelFromString(String pLevel) {
 		if (pLevel.equals("ATTENDING")) {
 			return PrivilegeLevel.ATTENDING;
-		} else if (pLevel.equals("RESIDENT")) {
+		} 
+		else if (pLevel.equals("RESIDENT")) {
 			return PrivilegeLevel.RESIDENT;
-		} else if (pLevel.equals("PENDING")) {
+		} 
+		else if (pLevel.equals("PENDING")) {
 			return PrivilegeLevel.PENDING;
-		} else {
+		} 
+		else {
 			return null;
 		}
 	}

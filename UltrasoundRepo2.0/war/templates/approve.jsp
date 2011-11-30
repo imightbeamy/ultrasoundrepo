@@ -27,7 +27,7 @@
   	Properties props = new Properties();
     Session mailsesh = Session.getDefaultInstance(props, null);
     String msgBody = "";
-    if( request.getParameter("approve") != null && request.getParameter("approve").equals("True")) {
+    if(request.getParameter("approve") != null && request.getParameter("approve").equals("True")) {
 	  	RightsManagementController rm = RightsManagementController.getInstance();
 	  	rm.changePrivilegeLevel(email, requested_role);
     	msgBody = "You have been approved as a " + requested_role + 
@@ -43,10 +43,9 @@
         msg.setFrom(new InternetAddress("ultrasoundrepo.reg@gmail.com", "Registration"));
         msg.addRecipient(Message.RecipientType.TO,
                          new InternetAddress(email, requested_role.toString()));
-        msg.setSubject("Registration for ulrasoundrepo");
-        msg.setText(msgBody);
+        msg.setSubject("Registration for Ultrasound Repository");
+        message.setContent(msgBody, "text/html;charset=iso-8859-1");
         Transport.send(msg);
-
     } 
     catch (AddressException e) { 
 %>
@@ -61,6 +60,6 @@
 <div class='span-10'>
   <h2><%=action %> <%=email %> as a <%=role_string%>!</h2>
   <p>
-    An email has been sent to the approved use letting them know thay can use the system 
+    An email has been sent to the approved user letting them know they can use the system.
   </p>
 </div>

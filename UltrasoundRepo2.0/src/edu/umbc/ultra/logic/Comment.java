@@ -1,6 +1,5 @@
 package edu.umbc.ultra.logic;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class Comment {
@@ -10,7 +9,7 @@ public class Comment {
 
 	public Comment(String content, User author) {
 		this.content = content;
-		this.timestamp = Calendar.getInstance().getTime();
+		this.timestamp = new Date();
 		this.author = author;
 	}
 

@@ -17,26 +17,26 @@
 	first = (first == null)? "No First Name" : first;
 	String last = request.getParameter("last");
 	last = (last == null)? "No Last Name" : last;
-	String role_string = request.getParameter("role");
+	String roleString = request.getParameter("role");
 	String adminEmail = "AmyCiav@gmail.com";
 	
-  	User newuser = new User(email, PrivilegeLevel.ATTENDING, new Date(), first, last);
+  	User newUser = new User(email, PrivilegeLevel.ATTENDING, new Date(), first, last);
   	RightsManagementController rm = RightsManagementController.getInstance();
-  	rm.addUser(newuser);
+  	rm.addUser(newUser);
   	
   	Properties props = new Properties();
-    Session mailsesh = Session.getDefaultInstance(props, null);
-    String aprovalurl = "http://ultrasoundrepo.appspot.com/approve?user=" + email + "&level=" + role_string;
-    String msgBody = "<a href='" + aprovalurl + "&approve=True'>Click here to approve " + first + " " + last + "</a>" +
-    				  "<a href='" + aprovalurl + "'>Click here to deny request</a>";
+    Session mailSession = Session.getDefaultInstance(props, null);
+    String approvalURL = "http://ultrasoundrepo.appspot.com/approve?user=" + email + "&level=" + roleString;
+    String msgBody = "<a href='" + approvalURL + "&approve=True'>Click here to approve " + first + " " + last + "</a>" +
+    				  "<a href='" + approvalURL + "'>Click here to deny request</a>";
 
     try {
-        Message msg = new MimeMessage(mailsesh);
+        Message msg = new MimeMessage(mailSession);
         msg.setFrom(new InternetAddress("ultrasoundrepo.reg@gmail.com", "Registration"));
         msg.addRecipient(Message.RecipientType.TO,
                          new InternetAddress(adminEmail, "Admin"));
-        msg.setSubject("Please approve a registration for ulrasoundrepo.");
-        msg.setText(msgBody);
+        msg.setSubject("Please approve a registration for Ultrasound Repository.");
+        message.setContent(msgBody, "text/html;charset=iso-8859-1");
         Transport.send(msg);
 
     } 

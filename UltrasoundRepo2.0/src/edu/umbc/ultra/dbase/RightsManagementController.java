@@ -21,12 +21,17 @@ public class RightsManagementController {
 	}
 
 	public User getUser(String email) {
+		// Get an instance of the data store controller
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
 		try {
+			// Attempt to get the user entity from the database matching the
+			// passed in email address
 			Entity userEntity = datastore.get(KeyFactory.createKey("User",
 					email));
+
+			// Populate a user object with the resulting entity properties
 			User newUser = new User(email,
 					User.getPrivilegeLevelFromString((String) userEntity
 							.getProperty("Privilege")),
@@ -43,6 +48,8 @@ public class RightsManagementController {
 			User.PrivilegeLevel privileges) {
 		User user = getUser(email);
 		if (user != null) {
+			// If the user exists, overwrite it in the database with the updated
+			// privilege level
 			return putUser(new User(email, privileges,
 					user.getRegisteredDate(), user.getFirstName(),
 					user.getLastName()));

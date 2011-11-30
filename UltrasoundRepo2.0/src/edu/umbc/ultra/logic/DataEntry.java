@@ -10,28 +10,27 @@ public class DataEntry {
 	private Date timestamp;
 	private ArrayList<Comment> comments;
 	private Patient patient;
-	private BlobKey key;
-	private String entrykey;
+	private BlobKey videoKey;
+	private String entryKey;
 
 	public DataEntry(ArrayList<Comment> comments, Patient patient, User author,
-			BlobKey key, String entryKey) {
+					 BlobKey blobKey, String entryKey) {
 		this.comments = comments;
 		this.patient = patient;
 		this.author = author;
 		this.timestamp = new Date();
-		this.entrykey = entryKey;
-		this.key = key;
+		this.entryKey = entryKey;
+		this.videoKey = blobKey;
 	}
 
 	public DataEntry(ArrayList<Comment> comments, Patient patient, User author,
-			BlobKey blobKey, String entrykey, Date timestamp) {
-		super();
+					 BlobKey blobKey, String entrykey, Date timestamp) {
 		this.author = author;
 		this.timestamp = timestamp;
 		this.comments = comments;
 		this.patient = patient;
-		this.key = blobKey;
-		this.entrykey = entrykey;
+		this.videoKey = blobKey;
+		this.entryKey = entrykey;
 	}
 
 	public User getAuthor() {
@@ -51,10 +50,10 @@ public class DataEntry {
 	}
 
 	public BlobKey getBlobKey() {
-		return key;
+		return videoKey;
 	}
 
 	public String getKey() {
-		return entrykey;
+		return entryKey;
 	}
 }

@@ -14,8 +14,7 @@ public class Patient {
 	private String id;
 
 	public Patient(String firstName, String lastName, Date dob, Gender gender,
-			String id) {
-		super();
+			       String id) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
@@ -59,9 +58,11 @@ public class Patient {
 	public static String getGenderAsString(Gender gender) {
 		if (gender == Gender.MALE) {
 			return "MALE";
-		} else if (gender == Gender.FEMALE) {
+		} 
+		else if (gender == Gender.FEMALE) {
 			return "FEMALE";
-		} else if (gender == Gender.OTHER) {
+		} 
+		else if (gender == Gender.OTHER) {
 			return "OTHER";
 		}
 		return null;
@@ -70,9 +71,11 @@ public class Patient {
 	public static Gender getGenderFromString(String in) {
 		if (in.equals("MALE")) {
 			return Gender.MALE;
-		} else if (in.equals("FEMALE")) {
+		} 
+		else if (in.equals("FEMALE")) {
 			return Gender.FEMALE;
-		} else if (in.equals("OTHER")) {
+		} 
+		else if (in.equals("OTHER")) {
 			return Gender.OTHER;
 		}
 		return null;
