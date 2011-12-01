@@ -20,6 +20,9 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import edu.umbc.ultra.logic.Comment;
@@ -85,11 +88,12 @@ public class UploadController extends HttpServlet {
 		}
 		Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
 		patient = new Patient(first, last, DoB, gender);
-		// UserService us = UserServiceFactory.getUserService();
+		UserService us = UserServiceFactory.getUserService();
 
 		// Just setting the user to test for testing purposes.
 		// TODO: Get the actual current user.
-		User user = rightsController.getUser("test@example.com");
+		User user = rightsController.getUser(us.getCurrentUser().getEmail());
+		//User user = rightsController.getUser("test@example.com");
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 
 		// Makes sure there is a value in complaint.
