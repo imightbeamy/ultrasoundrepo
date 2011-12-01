@@ -145,24 +145,24 @@ public class UploadController extends HttpServlet {
 		Entity entity = getEntityFromDataEntry(entry);
 
 		// Get an instance of the data store controller
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
-		try {
-			// Attempt to upload the entry
-			datastore.put(entity);
-		}
-		catch (IllegalArgumentException e) {
-			e.printStackTrace(System.err);
-			return e.getMessage();
-		}
-		catch (ConcurrentModificationException e) {
-			e.printStackTrace(System.err);
-			return e.getMessage();
-		}
-		catch (DatastoreFailureException e) {
-			e.printStackTrace(System.err);
-			return e.getMessage();
-		}
+//		DatastoreService datastore = DatastoreServiceFactory
+//				.getDatastoreService();
+//		try {
+//			// Attempt to upload the entry
+//			datastore.put(entity);
+//		}
+//		catch (IllegalArgumentException e) {
+//			e.printStackTrace(System.err);
+//			return e.getMessage();
+//		}
+//		catch (ConcurrentModificationException e) {
+//			e.printStackTrace(System.err);
+//			return e.getMessage();
+//		}
+//		catch (DatastoreFailureException e) {
+//			e.printStackTrace(System.err);
+//			return e.getMessage();
+//		}
 
 		return null;
 	}
@@ -179,6 +179,10 @@ public class UploadController extends HttpServlet {
 	 * with associated children.
 	 */
 	private Entity getEntityFromDataEntry(DataEntry entry) {
+		
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
 		User author = entry.getAuthor();
 		Patient patient = entry.getPatient();
 		ArrayList<Comment> comments = entry.getComments();
@@ -193,14 +197,19 @@ public class UploadController extends HttpServlet {
 		patientEntity.setProperty("Gender",
 				Patient.getGenderAsString(patient.getGender()));
 		patientEntity.setProperty("ID", patient.getId());
-
+		datastore.put(patientEntity);
+		
 		// Create and add DataEntry entity with a generated unique key,
 		// specifying the parent key as the user
 		Entity dataEntity = new Entity("DataEntry", patientEntity.getKey());
 		dataEntity.setProperty("timestamp", entry.getTimestamp());
 		dataEntity.setProperty("blobKey", entry.getBlobKey());
+		datastore.put(dataEntity);
+		System.out.println(dataEntity.getKey().hashCode());
 		dataEntity.setProperty("uniqueID", dataEntity.getKey().hashCode());
+		datastore.put(dataEntity);
 
+		
 		// Add each comment using a system generated key for each
 		for (int i = 0; i < comments.size(); i++) {
 			Entity commentEntity = new Entity("Comment", dataEntity.getKey());
