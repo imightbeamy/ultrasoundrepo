@@ -1,38 +1,33 @@
 package edu.umbc.ultra.logic;
 
-import java.util.Calendar;
 import java.util.Date;
 
-public class Comment
-{
+public class Comment {
 	private String content;
 	private Date timestamp;
 	private User author;
-	
-	public Comment(String content, User author)
-	{
+
+	public Comment(String content, User author) {
 		this.content = content;
-		this.timestamp = Calendar.getInstance().getTime();
+		this.timestamp = new Date();
 		this.author = author;
 	}
-	
-	public Comment(String content, Date timestamp, User author)
-	{
+
+	public Comment(String content, Date timestamp, User author) {
 		this.content = content;
 		this.timestamp = timestamp;
 		this.author = author;
 	}
-	
-	public String getContent()
-	{
+
+	public String getContent() {
 		return content;
 	}
-	public Date getTimestamp()
-	{
+
+	public Date getTimestamp() {
 		return timestamp;
 	}
-	public User getAuthor()
-	{
+
+	public User getAuthor() {
 		return author;
 	}
 }

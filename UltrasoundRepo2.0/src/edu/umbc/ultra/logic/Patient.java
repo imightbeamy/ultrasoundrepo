@@ -2,89 +2,80 @@ package edu.umbc.ultra.logic;
 
 import java.util.Date;
 
-public class Patient
-{
-	public static enum Gender {MALE, FEMALE, OTHER}
-	
+public class Patient {
+	public static enum Gender {
+		MALE, FEMALE, OTHER
+	}
+
 	private String firstName;
 	private String lastName;
 	private Date dob;
 	private Gender gender;
 	private String id;
-	
-	
-	
-	public Patient(String firstName, String lastName, Date dob, Gender gender, String id)
-	{
-		super();
+
+	public Patient(String firstName, String lastName, Date dob, Gender gender,
+			       String id) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
 		this.gender = gender;
 		this.id = id;
 	}
-	public Patient(String firstName, String lastName, Date dob, Gender gender)
-	{
+
+	public Patient(String firstName, String lastName, Date dob, Gender gender) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
 		this.gender = gender;
-		this.id = "" + firstName.charAt(0) + lastName.charAt(0) + dob.toString() + "";
+		this.id = "" + firstName.charAt(0) + lastName.charAt(0)
+				+ dob.toString() + "";
 	}
-	public String getFullName()
-	{
+
+	public String getFullName() {
 		return firstName + " " + lastName;
 	}
-	public String getFirstName()
-	{
+
+	public String getFirstName() {
 		return firstName;
 	}
-	public String getLastName()
-	{
+
+	public String getLastName() {
 		return lastName;
 	}
-	public Date getDob()
-	{
+
+	public Date getDob() {
 		return dob;
 	}
-	public Gender getGender()
-	{
+
+	public Gender getGender() {
 		return gender;
 	}
-	public String getId()
-	{
+
+	public String getId() {
 		return id;
 	}
-	
-	public static String getGenderAsString(Gender gender)
-	{
-		if(gender == Gender.MALE)
-		{
+
+	public static String getGenderAsString(Gender gender) {
+		if (gender == Gender.MALE) {
 			return "MALE";
-		}
-		else if(gender == Gender.FEMALE)
-		{
+		} 
+		else if (gender == Gender.FEMALE) {
 			return "FEMALE";
-		}
-		else if(gender == Gender.OTHER)
-		{
+		} 
+		else if (gender == Gender.OTHER) {
 			return "OTHER";
 		}
 		return null;
 	}
-	
-	public static Gender getGenderFromString(String in)
-	{
-		if(in.equals("MALE"))
-		{
+
+	public static Gender getGenderFromString(String in) {
+		if (in.equals("MALE")) {
 			return Gender.MALE;
-		}
-		else if(in.equals("FEMALE"))
-		{
+		} 
+		else if (in.equals("FEMALE")) {
 			return Gender.FEMALE;
-		}
-		else if(in.equals("OTHER"))
-		{
+		} 
+		else if (in.equals("OTHER")) {
 			return Gender.OTHER;
 		}
 		return null;

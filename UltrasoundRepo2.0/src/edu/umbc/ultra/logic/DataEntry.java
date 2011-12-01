@@ -5,59 +5,55 @@ import java.util.Date;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
-public class DataEntry
-{
+public class DataEntry {
 	private User author;
 	private Date timestamp;
 	private ArrayList<Comment> comments;
 	private Patient patient;
-	private BlobKey key;
-	private String entrykey;
+	private BlobKey videoKey;
+	private String entryKey;
 
-	public DataEntry(ArrayList<Comment> comments, Patient patient, User author, BlobKey key, String entryKey) {
+	public DataEntry(ArrayList<Comment> comments, Patient patient, User author,
+					 BlobKey blobKey, String entryKey) {
 		this.comments = comments;
 		this.patient = patient;
 		this.author = author;
 		this.timestamp = new Date();
-		this.entrykey = entryKey;
-		this.key = key;
+		this.entryKey = entryKey;
+		this.videoKey = blobKey;
 	}
-	
-	
-	public DataEntry(ArrayList<Comment> comments, Patient patient, User author, BlobKey blobKey, String entrykey, Date timestamp)
-	{
-		super();
+
+	public DataEntry(ArrayList<Comment> comments, Patient patient, User author,
+					 BlobKey blobKey, String entrykey, Date timestamp) {
 		this.author = author;
 		this.timestamp = timestamp;
 		this.comments = comments;
 		this.patient = patient;
-		this.key = blobKey;
-		this.entrykey = entrykey;
+		this.videoKey = blobKey;
+		this.entryKey = entrykey;
 	}
 
-
-	public User getAuthor()
-	{
+	public User getAuthor() {
 		return author;
 	}
-	public Date getTimestamp()
-	{
+
+	public Date getTimestamp() {
 		return timestamp;
 	}
-	public ArrayList<Comment> getComments()
-	{
+
+	public ArrayList<Comment> getComments() {
 		return comments;
 	}
-	public Patient getPatient()
-	{
+
+	public Patient getPatient() {
 		return patient;
 	}
-	
-	public BlobKey getBlobKey()
-	{
-		return key;
+
+	public BlobKey getBlobKey() {
+		return videoKey;
 	}
+
 	public String getKey() {
-		return entrykey;	
+		return entryKey;
 	}
 }

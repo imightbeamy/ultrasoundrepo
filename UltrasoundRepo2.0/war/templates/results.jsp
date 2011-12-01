@@ -1,25 +1,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="edu.umbc.ultra.dbase.SearchController" %>
+
 <%@ page import="java.util.ArrayList" %>
+
+<%@ page import="edu.umbc.ultra.logic.DataEntry" %>
 <%@ page import="edu.umbc.ultra.logic.Patient.Gender" %>
 <%@ page import="edu.umbc.ultra.logic.Patient" %>
-<%@ page import="edu.umbc.ultra.logic.DataEntry" %>
+<%@ page import="edu.umbc.ultra.dbase.SearchController" %>
 
 <% 
 	String keyword = request.getParameter("keyword");
 	String first = request.getParameter("first");
 	String last = request.getParameter("last");
 	String dob = request.getParameter("dob");
-	String gender_string = request.getParameter("gender");
+	String genderString = request.getParameter("gender");
 	Gender gender = null; 
-	if(gender_string != null) {
-		if(gender_string.equals("male")) {
+	if(genderString != null) {
+		if(genderString.equals("male")) {
 			gender = Gender.MALE;
 		}
-		else if(gender_string.equals("female")) {
+		else if(genderString.equals("female")) {
 			gender = Gender.FEMALE;
 		}
-		else if(gender_string.equals("other")) {
+		else if(genderString.equals("other")) {
 			gender = Gender.OTHER;
 		}
 	}
@@ -30,17 +32,15 @@
 	
 	SearchController sc = SearchController.getInstance();
 	ArrayList<DataEntry> results = sc.searchForEntries(first, 
-														   last, 
-													       gender,
-													       complaint, 
-													       keyword,
-													       user);										
+														last, 
+														gender,
+														complaint,
+														keyword,
+														user);										
 %>
 
 <div>
   <h2>Search Results (<%=results.size() %>)</h2>
- 
- 	
   <%
   	for(DataEntry de: results) {
   		Patient p = de.getPatient();
@@ -48,19 +48,19 @@
     <div class='span-20'>
       <table><tbody>
         <tr>
-          <td>Patient Name</td><td><%= p.getFirstName()  %> <%= p.getLastName()  %></td>
+          <td>Patient Name</td><td> <%=p.getFirstName()%> <%=p.getLastName()%> </td>
         </tr>
         <tr>
-          <td>Patient DoB</td><td><%= p.getDob().toString()  %></td>
+          <td>Patient DoB</td><td> <%=p.getDob().toString()%> </td>
         </tr>
         <tr>
-          <td>Patient Gender</td><td><%= p.getGender()  %></td>
+          <td>Patient Gender</td><td> <%=p.getGender()%></td>
         </tr>
         <tr>
-          <td>Upload Date</td><td><%= de.getTimestamp()  %></td>
+          <td>Upload Date</td><td><%=de.getTimestamp()%></td>
         </tr>
       </tbody></table>
-      <a class='viewrecord' href='/viewrecord?entry=<%= de.getKey() %>'>View full record </a>
+      <a class='viewrecord' href='/viewrecord?entry=<%=de.getKey()%>'>View full record </a>
     </div>
 <% } %>
 

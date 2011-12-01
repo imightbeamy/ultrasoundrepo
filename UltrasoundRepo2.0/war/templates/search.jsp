@@ -1,6 +1,6 @@
 
 <h2>Search for key words in particular fields</h2>
-<form name='search' action='/results' method="get">
+<form name='search' action='/results' method='get'>
   
   <div class='span-5 form-label'>
     <label for='keyword'>Keyword for any field</label>
@@ -34,13 +34,13 @@
     <label for='gender'>Patient Gender</label>
   </div>
   <div class='span-18 last'>
-      <input type='radio' value='male' name="gender"> 
+      <input type='radio' value='male' name='gender'> 
       <label for='male'>Male</label><br>
-      <input type='radio' value='female' name="gender">
+      <input type='radio' value='female' name='gender'>
       <label for='female'>Female</label><br>
-      <input type='radio' value='other' name="gender">
+      <input type='radio' value='other' name='gender'>
       <label for='other'>Other</label><br>
-      <input type='radio' value='any' name="gender" checked>
+      <input type='radio' value='any' name='gender' checked>
       <label for='any'>Any</label><br>
   </div>
 
@@ -59,7 +59,7 @@
   </div>
 
   <div class='span-5 form-label'>
-    <label for='reason'>Reason for study	keyword</label>
+    <label for='reason'>Reason for study keyword</label>
   </div>
   <div class='span-18'>
     <input type='text' name='reason' id='reason' size=30 >
@@ -74,7 +74,6 @@
  
   <div class='prepend-2 span-5 form-label'>
     <br>
-    <input type='submit' value="Search" />
+    <input type='submit' value='Search' />
   </div>
-  
 </form>
