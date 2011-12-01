@@ -81,9 +81,7 @@ public class UploadController extends HttpServlet {
 			}
 		}
 		catch (ParseException e) {
-			// TODO Auto-generated catch block
 			DoB = new Date();
-			// e.printStackTrace();
 		}
 		Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
 		patient = new Patient(first, last, DoB, gender);
@@ -117,8 +115,7 @@ public class UploadController extends HttpServlet {
 		String aInterp = req.getParameter("attendInterp");
 
 		// Tests to make sure that there is an entry in the Resident or
-		// Attending physician's
-		// interpretation textarea.
+		// Attending physician's interpretation textarea.
 		if (((aInterp == null) || (aInterp.length() == 0))
 				&& ((rInterp == null) || (rInterp.length() == 0))) {
 			redirect(res, blobKey);
