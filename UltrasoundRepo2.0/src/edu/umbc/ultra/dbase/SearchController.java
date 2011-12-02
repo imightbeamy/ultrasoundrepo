@@ -27,22 +27,11 @@ public class SearchController {
 
 	public DataEntry getEntryByID(String id) {
 		// Get instance of data store controller
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
-
-		// Construct new Query object (searching on DataEntry objects)
-		Query query = new Query("DataEntry");
-
-		// Filter the query results by only entries with the matching id
-		query.addFilter("uniqueID", FilterOperator.EQUAL, id);
-
-		// Submit query
-		PreparedQuery pq = datastore.prepare(query);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 		try {
-			// Attempt to get the one and only entry that matches this query.
-			// There should be only one.
-			return getDataEntryFromEntity(pq.asSingleEntity());
+			Entity data_entry = datastore.get(KeyFactory.stringToKey(id));
+			return getDataEntryFromEntity(data_entry);
 		} catch (Exception e) {
 			return null;
 		}
@@ -60,7 +49,7 @@ public class SearchController {
 
 			// Get the high-level user entity that is the ancestor of this
 			// patient entity
-			Entity userEntity = datastore.get(patientEntity.getKey());
+			Entity userEntity = datastore.get(patientEntity.getParent());
 
 			// Populate user object with user entity properties from database
 			User user = new User(userEntity.getKey().toString(),
@@ -76,20 +65,20 @@ public class SearchController {
 					(String) patientEntity.getProperty("FirstName"),
 					(String) patientEntity.getProperty("LastName"),
 					(Date) patientEntity.getProperty("DOB"),
-					Patient.getGenderFromString((String) patientEntity
-							.getProperty("Gender")),
+					Patient.getGenderFromString((String) patientEntity.getProperty("Gender")),
 					(String) patientEntity.getProperty("ID"));
 
 			// Populate dataentry object with entity properties, linking to
 			// previously built user and patient objects
 			DataEntry de = new DataEntry(getCommentsFromEntry(result), patient,
 					user, (BlobKey) result.getProperty("blobKey"),
-					(String) result.getProperty("uniqueID"),
+					KeyFactory.keyToString(result.getKey()),
 					(Date) result.getProperty("timestamp"));
 			return de;
 		} catch (Exception e) {
 			// If any keys are not able to be retrieved from the database, or
 			// not found, return null.
+			e.printStackTrace(System.out);
 			return null;
 		}
 	}

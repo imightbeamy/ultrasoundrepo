@@ -190,8 +190,7 @@ public class UploadController extends HttpServlet {
 		patientEntity.setProperty("FirstName", patient.getFirstName());
 		patientEntity.setProperty("LastName", patient.getLastName());
 		patientEntity.setProperty("DOB", patient.getDob());
-		patientEntity.setProperty("Gender",
-				Patient.getGenderAsString(patient.getGender()));
+		patientEntity.setProperty("Gender", patient.getGender().toString());
 		patientEntity.setProperty("ID", patient.getId());
 		datastore.put(patientEntity);
 		
@@ -201,9 +200,8 @@ public class UploadController extends HttpServlet {
 		dataEntity.setProperty("timestamp", entry.getTimestamp());
 		dataEntity.setProperty("blobKey", entry.getBlobKey());
 		datastore.put(dataEntity);
-		System.out.println(dataEntity.getKey().hashCode());
-		dataEntity.setProperty("uniqueID", dataEntity.getKey().hashCode());
-		datastore.put(dataEntity);
+		String hashKey = KeyFactory.keyToString(dataEntity.getKey());
+		entry.setKey(hashKey);
 
 		
 		// Add each comment using a system generated key for each

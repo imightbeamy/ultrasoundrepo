@@ -53,6 +53,10 @@ public class DataEntry {
 		return videoKey;
 	}
 
+	public void setKey(String key) {
+		entryKey = key;
+	}
+	
 	public String getKey() {
 		return entryKey;
 	}

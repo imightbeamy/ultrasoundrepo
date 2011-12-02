@@ -60,3 +60,6 @@
    </div>
 </div>
 <% } %>
+
+<br><br>
+<%=dataEntry %>
