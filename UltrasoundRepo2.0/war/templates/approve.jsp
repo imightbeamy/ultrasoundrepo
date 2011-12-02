@@ -44,7 +44,7 @@
         msg.addRecipient(Message.RecipientType.TO,
                          new InternetAddress(email, requested_role.toString()));
         msg.setSubject("Registration for Ultrasound Repository");
-        message.setContent(msgBody, "text/html;charset=iso-8859-1");
+        msg.setContent(msgBody, "text/html;charset=iso-8859-1");
         Transport.send(msg);
     } 
     catch (AddressException e) { 

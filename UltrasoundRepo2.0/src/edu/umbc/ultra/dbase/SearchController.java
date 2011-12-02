@@ -98,10 +98,11 @@ public class SearchController {
 
 		// Iterate over the results from the query
 		for (Entity result : pq.asIterable()) {
-			comments.add(new Comment((String) result.getProperty("Text"),
-					(Date) result.getProperty("Timestamp"),
-					RightsManagementController.getInstance().getUser(
-							(String) result.getProperty("Author"))));
+			User author = RightsManagementController.getInstance().getUser(result.getProperty("Author").toString());
+			Comment comment = new Comment(result.getProperty("Text").toString(),
+										(Date) result.getProperty("Timestamp"),
+										author, result.getProperty("Title").toString());
+			comments.add(comment);
 		}
 
 		return comments;
@@ -248,7 +249,7 @@ public class SearchController {
 		User user = new User();
 		// Patient newPatient = new Patient("Nathan", "Broemm", new Date(),
 		// Gender.MALE, "nab0415");
-		Comment testComment = new Comment("Turn the Computer off and on!", user);
+		Comment testComment = new Comment("Turn the Computer off and on!", user, "lol");
 		comments.add(testComment);
 		// results.add(new DataEntry(comments, newPatient, new User()));
 		return results;

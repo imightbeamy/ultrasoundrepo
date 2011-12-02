@@ -102,7 +102,7 @@ public class UploadController extends HttpServlet {
 			return;
 		}
 		else {
-			comments.add(new Comment(req.getParameter("complaint"), user));
+			comments.add(new Comment(req.getParameter("complaint"), user, "Complaint"));
 		}
 
 		// Makes sure there is a value in reason.
@@ -112,7 +112,7 @@ public class UploadController extends HttpServlet {
 			return;
 		}
 		else {
-			comments.add(new Comment(req.getParameter("reason"), user));
+			comments.add(new Comment(req.getParameter("reason"), user, "Reason"));
 		}
 		String rInterp = req.getParameter("resInterp");
 		String aInterp = req.getParameter("attendInterp");
@@ -131,41 +131,14 @@ public class UploadController extends HttpServlet {
 			rInterp = "No Resident Physician interpretation.";
 		}
 
-		comments.add(new Comment(req.getParameter("resInterp"), user));
-		comments.add(new Comment(req.getParameter("attendInterp"), user));
+		comments.add(new Comment(rInterp, user, "Attending Physician interpretation."));
+		comments.add(new Comment(aInterp, user, "Resident Physician interpretation."));
+		System.out.println(comments);
 		DataEntry data = new DataEntry(comments, patient, user, blobKey, null);
 		UploadEntry(data);
 		res.sendRedirect("/viewrecord?entry=" + data.getKey());
 	}
-
-	// Returns NULL upon success, otherwise returns the error heading
-	public String UploadEntry(DataEntry entry) {
-		// Get a datastore entity populated with the data entry to upload
-		Entity entity = getEntityFromDataEntry(entry);
-
-		// Get an instance of the data store controller
-//		DatastoreService datastore = DatastoreServiceFactory
-//				.getDatastoreService();
-//		try {
-//			// Attempt to upload the entry
-//			datastore.put(entity);
-//		}
-//		catch (IllegalArgumentException e) {
-//			e.printStackTrace(System.err);
-//			return e.getMessage();
-//		}
-//		catch (ConcurrentModificationException e) {
-//			e.printStackTrace(System.err);
-//			return e.getMessage();
-//		}
-//		catch (DatastoreFailureException e) {
-//			e.printStackTrace(System.err);
-//			return e.getMessage();
-//		}
-
-		return null;
-	}
-
+	
 	/*
 	 * The dbase entity heirarchy is as follows: User Entity 1 -> Patient Entity
 	 * -> DataEntry Entity 1 -> Comment Entity 1 -> Comment Entity 2 ->
@@ -177,8 +150,9 @@ public class UploadController extends HttpServlet {
 	 * Therefore, this method takes in a DataEntry and returns a User entity
 	 * with associated children.
 	 */
-	private Entity getEntityFromDataEntry(DataEntry entry) {
-		
+	// Returns NULL upon success, otherwise returns the error heading
+	public Entity UploadEntry(DataEntry entry) {
+	
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
@@ -208,26 +182,26 @@ public class UploadController extends HttpServlet {
 
 		
 		// Add each comment using a system generated key for each
-		for (int i = 0; i < comments.size(); i++) {
+		for (Comment c: comments) {
 			Entity commentEntity = new Entity("Comment", dataEntity.getKey());
-			commentEntity.setProperty("Text", comments.get(i).getContent());
+			commentEntity.setProperty("Text", c.getContent());
 			// Author entry consists of user's google account
-			commentEntity.setProperty("Author", comments.get(i).getAuthor()
-					.getGoogleUser());
-			commentEntity.setProperty("Timestamp", comments.get(i)
-					.getTimestamp());
-			ArrayList<String> keywords = extractKeywords(comments.get(i)
-					.getContent());
+			commentEntity.setProperty("Author", c.getAuthor().getGoogleUser());
+			commentEntity.setProperty("Timestamp", c.getTimestamp());
+			commentEntity.setProperty("Title", c.getTitle());
+			ArrayList<String> keywords = extractKeywords(c.getContent());
+			datastore.put(commentEntity);
 			for (String keyword : keywords) {
 				Entity kwEntity = new Entity("Keyword", commentEntity.getKey());
 				kwEntity.setProperty("Word", keyword);
 				// If this is a chief complaint (first comment), set it as such
-				if (i == 0) {
+				if (c.getTitle().equals("Complaint")) {
 					kwEntity.setProperty("Type", "CC");
 				} else {
 					kwEntity.setProperty("Type", "KW");
 				}
 				System.out.println("Adding keyword \"" + keyword + "\"");
+				datastore.put(kwEntity);
 			}
 		}
 

@@ -36,7 +36,7 @@
         msg.addRecipient(Message.RecipientType.TO,
                          new InternetAddress(adminEmail, "Admin"));
         msg.setSubject("Please approve a registration for Ultrasound Repository.");
-        message.setContent(msgBody, "text/html;charset=iso-8859-1");
+        msg.setContent(msgBody, "text/html;charset=iso-8859-1");
         Transport.send(msg);
 
     } 
