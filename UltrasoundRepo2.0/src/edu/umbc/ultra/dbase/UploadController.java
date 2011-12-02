@@ -1,6 +1,7 @@
 package edu.umbc.ultra.dbase;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -88,12 +89,10 @@ public class UploadController extends HttpServlet {
 		}
 		Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
 		patient = new Patient(first, last, DoB, gender);
-		UserService us = UserServiceFactory.getUserService();
 
-		// Just setting the user to test for testing purposes.
-		// TODO: Get the actual current user.
-		User user = rightsController.getUser(us.getCurrentUser().getEmail());
-		//User user = rightsController.getUser("test@example.com");
+		// Gets the active user.
+		String userEmail = req.getUserPrincipal().toString();
+		User user = rightsController.getUser(userEmail);
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 
 		// Makes sure there is a value in complaint.
