@@ -13,8 +13,7 @@
 	PrivilegeLevel role = user.getPrivilegeLevel();
 	
 	SearchController sc = SearchController.getInstance();
-	ArrayList<DataEntry> records = sc.searchForEntries(null,null,null,
-														null,null,userEmail);
+	ArrayList<DataEntry> records = sc.KeysToDataEntries(sc.searchByUser(userEmail));
 %>
 <div class="span-12 last">
   <% if (role == PrivilegeLevel.ATTENDING) { %>
@@ -36,13 +35,13 @@
 </div>
 
 <div class="span-8 last">
-	<h2>Your Records</h2>
+	<h2>Your Recent Records (<a href='/results?keyword=<%=userEmail%>'>See all</a>)</h2>
 	<%
 		if(records.size() > 0) {
-			for(DataEntry de: records) {
+			for(DataEntry de: records.subList(0, 5)) {
  				Patient p = de.getPatient();
 	%>
-				<div class='span-20'>
+				<div class='span-5'>
 					<table><tbody>
 						<tr>
 							<td>Patient Name</td><td> <%=p.getFirstName()%> <%=p.getLastName()%> </td>

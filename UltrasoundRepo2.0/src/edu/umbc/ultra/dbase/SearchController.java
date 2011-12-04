@@ -112,6 +112,9 @@ public class SearchController {
 	public ArrayList<DataEntry> searchByKeyword(ArrayList<String> keywords) {
 		ArrayList<Key> dataEntries = searchComments(keywords, null);
 		dataEntries.addAll(searchPatients(keywords));
+		for(String word: keywords) {
+		dataEntries.addAll(searchByUser(word));
+		}
 		return KeysToDataEntries(dataEntries);
 	}
 	
@@ -183,6 +186,27 @@ public class SearchController {
 		return dataEntryKeys;
 	}
 	
+	
+	public ArrayList<Key> searchByUser(String email) {
+		// Get an instance of the data store controller
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		ArrayList<Key> dataEntryKeys = new ArrayList<Key>();
+	 	
+		Query query = new Query("Patient", KeyFactory.createKey("User", email));
+		query.setKeysOnly();
+		// Submit the query
+		PreparedQuery pq = datastore.prepare(query);
+		for (Entity result : pq.asIterable()) {
+			Key patients_key = result.getKey();
+			Query data_query = new Query("DataEntry", patients_key);
+			PreparedQuery dq = datastore.prepare(data_query);
+			for (Entity de : dq.asIterable()) {
+			  dataEntryKeys.add(de.getKey());
+			}
+		 }
+		return dataEntryKeys;
+	}
+
 	
 	public ArrayList<Key> GetUniqueKeys(ArrayList<Key> values)
 	{
