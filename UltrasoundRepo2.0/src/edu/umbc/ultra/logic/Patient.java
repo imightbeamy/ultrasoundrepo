@@ -1,5 +1,7 @@
 package edu.umbc.ultra.logic;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Patient {
@@ -53,6 +55,11 @@ public class Patient {
 
 	public String getId() {
 		return id;
+	}
+	
+	public String getPrintDate() {
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		return df.format(dob);
 	}
 
 	public static String getGenderAsString(Gender gender) {

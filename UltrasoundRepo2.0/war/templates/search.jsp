@@ -22,11 +22,7 @@
   <div class='span-18'>
     <input type=text name='last' id='last' size=30 maxlength=75 >
   </div>
-
-  <div class='span-18'>
-    <input type=text name='dob' id='dob' size=30 maxlength=75 >
-  </div>
-  
+   
   <div class='span-5 form-label'>
     <label for='gender'>Patient Gender</label>
   </div>

@@ -25,7 +25,7 @@
          <td>Name</td><td><%=patient.getFullName()%></td>
        </tr>
        <tr>
-         <td>DoB</td><td><%=patient.getDob().toString()%></td>
+         <td>DoB</td><td><%=patient.getPrintDate()%></td>
        </tr>
        <tr>
          <td>Gender</td><td><%=patient.getGender()%></td>
@@ -52,10 +52,27 @@
        <tr>
          <td><%=c.getTitle()%></td>
          <td><%=c.getContent()%></td>
-         <td><%=c.getAuthor()%></td>
+         <td><%=c.getAuthor().getGoogleUser()%></td>
        </tr>
        <% } %>
      </tbody></table>
+     
+    <br />
+    <form action='/videoupload' method='get' enctype='multipart/form-data'>
+	    <div class='span-4 form-label'>
+		  <label for='resInterp'>Add new interpretation</label>
+		</div>
+		<div class='span-18'>
+		  <textarea type=textarea name='newcomment' id='newcomment' rows=6 cols=30></textarea>
+		</div>
+	   <div class='prepend-2 span-4 form-label'>
+	    <br>
+	    <input type='submit' value='Submit' />
+	  	</div>
+	  	<div class='hide'>
+	  		<input type=text name='entry' id='entry' VALUE='<%=request.getParameter("entry")%>'>
+	  	</div>
+    </form>
    </div>
    <div class='span-6'>
    

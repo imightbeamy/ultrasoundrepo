@@ -14,7 +14,7 @@
 	
 	SearchController sc = SearchController.getInstance();
 	ArrayList<DataEntry> records = sc.KeysToDataEntries(sc.searchByUser(userEmail));
-	if(records.size() > 6) {
+	if(records.size() > 5) {
 	  records = new ArrayList<DataEntry>(records.subList(0, 5));
 	}
 %>
@@ -24,7 +24,7 @@
     <a href='/search' ><h2>Search</h2></a>
 	<form name='search' action='/results' method="get">
         <label for='keyword'>Key Word</label>
-        <input type=text name='keyword' id='keyword' size=30 maxlength=75 >
+        <input type=text name='ukeyword' id='keyword' size=30 maxlength=75 >
         <input type="submit" value="Search" />
     </form>
     <a href='/search'>Advanced Search</a>
@@ -44,7 +44,7 @@
 </div>
 
 <div class="span-8 last">
-	<h2>Your Recent Records (<a href='/results?keyword=<%=userEmail%>'>All</a>)</h2>
+	<h2>Your Recent Records (<a href='/results?thisuser=True'>All</a>)</h2>
 	<%
 		if(records.size() > 0) {
 			for(DataEntry de: records) {
@@ -56,7 +56,7 @@
 							<td>Patient Name</td><td> <%=p.getFirstName()%> <%=p.getLastName()%> </td>
 						</tr>
 						<tr>
-							<td>Patient DoB</td><td> <%=p.getDob().toString()%> </td>
+							<td>Patient DoB</td><td> <%=p.getPrintDate()%> </td>
 						</tr>
 						<tr>
 							<td>Patient Gender</td><td> <%=p.getGender()%></td>

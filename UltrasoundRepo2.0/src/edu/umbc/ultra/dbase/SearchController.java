@@ -111,7 +111,9 @@ public class SearchController {
 		return comments;
 	}
 
-	public ArrayList<DataEntry> searchByKeyword(ArrayList<String> keywords) {
+	public ArrayList<DataEntry> searchByKeyword(String keyword) {
+		ArrayList<String> keywords = new ArrayList<String>(Arrays.asList(keyword.split(" ")));
+		System.out.println(keywords);
 		return KeysToDataEntries(searchByKeywordforKeys(keywords));
 	}
 	
@@ -119,7 +121,7 @@ public class SearchController {
 		ArrayList<Key> dataEntries = searchComments(keywords, null);
 		dataEntries.addAll(searchPatients(keywords));
 		for(String word: keywords) {
-		dataEntries.addAll(searchByUser(word));
+			dataEntries.addAll(searchByUser(word));
 		}
 		return dataEntries;
 	}
@@ -144,8 +146,10 @@ public class SearchController {
 	}
 	
 	public ArrayList<Key> searchComments(ArrayList<String> keywords, String type) {
-		for(String word: keywords) {
-			word = word.toUpperCase();
+		
+		
+		for(int i = 0; i < keywords.size(); i++) {
+			keywords.set(i, keywords.get(i).toUpperCase());
 		}
 		Query query = new Query("Keyword");
 		query.addFilter("Word", Query.FilterOperator.IN, keywords);
@@ -279,7 +283,7 @@ public class SearchController {
 		
 		ArrayList<ArrayList<Key>> resultLists = new ArrayList<ArrayList<Key>>();
 		if(firstName != null || lastName!=null || gender != null) {
-			resultLists.add(searchPatientFields(makeNull(firstName), makeNull(lastName), gender, null));
+			resultLists.add(searchPatientFields(makeNull(firstName).toUpperCase(), makeNull(lastName).toUpperCase(), gender, null));
 		}
 		if(userEmail != null && !userEmail.equals("")) {
 			resultLists.add(searchByUser(userEmail));
@@ -298,7 +302,7 @@ public class SearchController {
 		}
 		
 		ArrayList<Key> results = resultLists.get(0);
-		for(int i = 1; i < resultLists.size() - 1; i++) {
+		for(int i = 1; i < resultLists.size(); i++) {
 			results = intersection(resultLists.get(i), results);
 		}
 		return KeysToDataEntries(results);

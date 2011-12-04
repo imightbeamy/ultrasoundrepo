@@ -18,7 +18,7 @@
 	String last = request.getParameter("lastName");
 	last = (last == null)? "No Last Name" : last;
 	String roleString = request.getParameter("role");
-	String adminEmail = "AmyCiav@gmail.com";
+	String adminEmail = "ultrasoundrepo.reg@gmail.com";
 	
   	User newUser = new User(email, PrivilegeLevel.PENDING, new Date(), first, last);
   	RightsManagementController rm = RightsManagementController.getInstance();

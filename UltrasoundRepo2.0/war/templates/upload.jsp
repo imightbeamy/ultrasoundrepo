@@ -30,7 +30,7 @@
   </div>
   
   <div class='span-4 form-label'>
-    <label for='DoB'>Patient DoB</label>
+    <label for='DoB'>Patient DoB ("mm/dd/yyyy")</label>
   </div>
   <div class='span-18'>
     <input type=text name='DoB' id='DoB' size=30 maxlength=30 >

@@ -20,6 +20,7 @@ import com.google.appengine.api.datastore.DatastoreFailureException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -39,6 +40,21 @@ public class UploadController extends HttpServlet {
 
 	public UploadController() {
 
+	}
+	
+	public void doGet(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException, IOException {
+		// Get an instance of the UserService
+		UserService userService = UserServiceFactory.getUserService();
+		String userEmail = userService.getCurrentUser().getEmail();
+		RightsManagementController rightsController = RightsManagementController
+				.getInstance();
+		User user = rightsController.getUser(userEmail);
+		Comment newc = new Comment(req.getParameter("newcomment"), user, "Later Interpretation");
+		ArrayList<Comment> comList = new ArrayList<Comment>();
+		comList.add(newc);
+		UploadComments(KeyFactory.stringToKey(req.getParameter("entry")), comList);
+		res.sendRedirect("/viewrecord?entry=" + req.getParameter("entry"));
 	}
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
@@ -71,17 +87,16 @@ public class UploadController extends HttpServlet {
 			return;
 		}
 		try {
-			DateFormat df = new SimpleDateFormat("mm/dd/yyyy");
-
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			String dob = req.getParameter("DoB");
 			// Make sure there is a value in the DoB field before trying to
 			// parse it.
-			if ((req.getParameter("DoB") == null)
-					|| (req.getParameter("DoB").length() == 0)) {
+			if (dob == null || dob.length() == 0) {
 				redirect(res, blobKey);
 				return;
 			}
 			else {
-				DoB = df.parse(req.getParameter("DoB"));
+				DoB = df.parse(dob);
 			}
 		}
 		catch (ParseException e) {
@@ -185,8 +200,16 @@ public class UploadController extends HttpServlet {
 
 		
 		// Add each comment using a system generated key for each
+		UploadComments(dataEntity.getKey(), comments);
+
+		return patientEntity;
+	}
+
+	private void UploadComments(Key dataEntity, ArrayList<Comment> comments) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
 		for (Comment c: comments) {
-			Entity commentEntity = new Entity("Comment", dataEntity.getKey());
+			Entity commentEntity = new Entity("Comment", dataEntity);
 			commentEntity.setProperty("Text", c.getContent());
 			// Author entry consists of user's google account
 			commentEntity.setProperty("Author", c.getAuthor().getGoogleUser());
@@ -210,10 +233,8 @@ public class UploadController extends HttpServlet {
 				datastore.put(kwEntity);
 			}
 		}
-
-		return patientEntity;
 	}
-
+	
 	private ArrayList<String> extractKeywords(String commentText) {
 		ArrayList<String> results = new ArrayList<String>();
 
