@@ -12,5 +12,5 @@
 
 <%=email %>
 <div class='span-10'>
-  <h2>You have been added as a attending/h2>
+  <h2>You have been added as a attending</h2>
 </div>

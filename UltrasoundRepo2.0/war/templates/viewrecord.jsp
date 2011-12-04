@@ -22,7 +22,7 @@
      <h3>Patient Information</h3>
      <table><tbody>
        <tr>
-         <td>Name</td><td><%=patient.getFirstName()%> <%=patient.getLastName()%></td>
+         <td>Name</td><td><%=patient.getFullName()%></td>
        </tr>
        <tr>
          <td>DoB</td><td><%=patient.getDob().toString()%></td>
@@ -34,7 +34,7 @@
          <td>ID</td><td><%=patient.getId()%></td>
        </tr>
      </tbody></table>
-     
+     <a href='/results?first<%=patient.getFirstName()%>&last=<%=patient.getLastName()%>'>view all records for <%=patient.getFullName()%></a>
      
      <h3>Video Information</h3> 
      <table><tbody>
@@ -52,6 +52,7 @@
        <tr>
          <td><%=c.getTitle()%></td>
          <td><%=c.getContent()%></td>
+         <td><%=c.getAuthor()%></td>
        </tr>
        <% } %>
      </tbody></table>

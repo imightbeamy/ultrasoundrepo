@@ -92,7 +92,11 @@ public class UploadController extends HttpServlet {
 		patient = new Patient(first, last, DoB, gender);
 
 		// Gets the active user.
-		String userEmail = "test@example.com";//req.getUserPrincipal().toString();
+		
+		// Get an instance of the UserService
+		UserService userService = UserServiceFactory.getUserService();
+		String userEmail = userService.getCurrentUser().getEmail();
+		
 		User user = rightsController.getUser(userEmail);
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 
@@ -162,8 +166,7 @@ public class UploadController extends HttpServlet {
 
 		// Create and add Patient entity using as a key the unique id assigned
 		// upon creation
-		Entity patientEntity = new Entity("Patient", patient.getId(),
-				KeyFactory.createKey("User", entry.getAuthor().getGoogleUser()));
+		Entity patientEntity = new Entity("Patient", patient.getId(),KeyFactory.createKey("User", author.getGoogleUser()));
 		patientEntity.setProperty("FirstName", patient.getFirstName());
 		patientEntity.setProperty("LastName", patient.getLastName());
 		patientEntity.setProperty("DOB", patient.getDob());
@@ -197,7 +200,11 @@ public class UploadController extends HttpServlet {
 				// If this is a chief complaint (first comment), set it as such
 				if (c.getTitle().equals("Complaint")) {
 					kwEntity.setProperty("Type", "CC");
-				} else {
+				}
+				else if (c.getTitle().equals("Reason")){
+					kwEntity.setProperty("Type", "RE");
+				} 
+				else {
 					kwEntity.setProperty("Type", "KW");
 				}
 				datastore.put(kwEntity);

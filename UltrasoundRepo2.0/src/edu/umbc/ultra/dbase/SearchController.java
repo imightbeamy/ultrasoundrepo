@@ -132,7 +132,10 @@ public class SearchController {
 			Entity dataEntry;
 			try {
 				dataEntry = datastore.get(key);
-				dataEntries.add(getDataEntryFromEntity(dataEntry));
+				DataEntry de = getDataEntryFromEntity(dataEntry);
+				if(de != null) {
+					dataEntries.add(de);
+				}
 			} catch (EntityNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -195,37 +198,28 @@ public class SearchController {
 	public ArrayList<Key> searchPatientFields(String first, String last, Gender gender, String dob) {
 		// Get an instance of the data store controller
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		ArrayList<Key> dataEntryKeys = new ArrayList<Key>();
-		ArrayList<Query> querys = new ArrayList<Query>();
 		
+		Query query = new Query("Patient");
+		query.setKeysOnly();
 		if(first != null) {
-			Query first_query = new Query("Patient");
-			first_query.addFilter("FirstName", Query.FilterOperator.EQUAL, first);
-			first_query.setKeysOnly();
-			querys.add(first_query);
+			query.addFilter("FirstName", Query.FilterOperator.EQUAL, first);
 		}
-		if(first != null) {
-			Query last_query = new Query("Patient");
-			last_query.addFilter("LastName", Query.FilterOperator.EQUAL, last);
-			last_query.setKeysOnly();
-			querys.add(last_query);
+		if(last != null) {
+			query.addFilter("LastName", Query.FilterOperator.EQUAL, last);
 		}
-		if(first != null) {
-			Query g_query = new Query("Patient");
-			g_query.addFilter("g_query", Query.FilterOperator.EQUAL, gender.toString());
-			g_query.setKeysOnly();
-			querys.add(g_query);
+		if(gender != null) {
+			query.addFilter("Gender", Query.FilterOperator.EQUAL, gender.toString());
 		}
-		for(Query q: querys) {
-			PreparedQuery pq = datastore.prepare(q);
-			for (Entity result : pq.asIterable()) {
-				Key patients_key = result.getKey();
-				Query data_query = new Query("DataEntry", patients_key);
-				PreparedQuery dq = datastore.prepare(data_query);
-				for (Entity de : dq.asIterable()) {
-				  dataEntryKeys.add(de.getKey());
-				}
-			 }
+		
+		ArrayList<Key> dataEntryKeys = new ArrayList<Key>();
+		PreparedQuery pq = datastore.prepare(query);
+		for (Entity result : pq.asIterable()) {
+			Key patients_key = result.getKey();
+			Query data_query = new Query("DataEntry", patients_key);
+			PreparedQuery dq = datastore.prepare(data_query);
+			for (Entity de : dq.asIterable()) {
+			  dataEntryKeys.add(de.getKey());
+			}
 		}
 		return dataEntryKeys;
 	}
@@ -252,6 +246,8 @@ public class SearchController {
 	}
 	
 	public ArrayList<Key> searchByUser(String email) {
+		if(email == null || email.equals(""))
+		{ return new ArrayList<Key>(); }
 		// Get an instance of the data store controller
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		ArrayList<Key> dataEntryKeys = new ArrayList<Key>();
@@ -278,21 +274,52 @@ public class SearchController {
 	}
 	
 	public ArrayList<DataEntry> searchForEntries(String firstName,
-			String lastName, Gender gender, String chiefComplaint,
+			String lastName, Gender gender, String chiefComplaint, String reason, String interpretation,
 			String keywords, String userEmail) {
-		ArrayList<Key> results = new ArrayList<Key>();
+		
+		ArrayList<ArrayList<Key>> resultLists = new ArrayList<ArrayList<Key>>();
 		if(firstName != null || lastName!=null || gender != null) {
-			results.addAll(searchPatientFields(firstName, lastName, gender, null));
+			resultLists.add(searchPatientFields(makeNull(firstName), makeNull(lastName), gender, null));
 		}
-		if(userEmail != null) {
-			results.addAll(searchByUser(userEmail));
+		if(userEmail != null && !userEmail.equals("")) {
+			resultLists.add(searchByUser(userEmail));
+		}
+		if(keywords != null && !keywords.equals("")) {
+			resultLists.add(searchByKeywordforKeys(new ArrayList<String>(Arrays.asList(keywords.split(" ")))));
+		}
+		if(chiefComplaint != null && !chiefComplaint.equals("")) {
+			resultLists.add(searchComments(new ArrayList<String>(Arrays.asList(chiefComplaint.split(" "))), "CC"));
+		}
+		if(interpretation != null && !interpretation.equals("")) {
+			resultLists.add(searchComments(new ArrayList<String>(Arrays.asList(interpretation.split(" "))), "KW"));
+		}
+		if(reason != null && !reason.equals("")) {
+			resultLists.add(searchComments(new ArrayList<String>(Arrays.asList(reason.split(" "))), "RE"));
 		}
 		
-		results.addAll(searchByKeywordforKeys(new ArrayList<String>(Arrays.asList(keywords.split(" ")))));
-		results.addAll(searchComments(new ArrayList<String>(Arrays.asList(chiefComplaint.split(" "))), "CC"));
+		ArrayList<Key> results = resultLists.get(0);
+		for(int i = 1; i < resultLists.size() - 1; i++) {
+			results = intersection(resultLists.get(i), results);
+		}
 		return KeysToDataEntries(results);
 	}
+	
+	public String makeNull(String str) {
+		if(str != null && str.equals("")) {
+			return null;
+		}
+		return str;
+	}
 
+    public <T> ArrayList<T> intersection(ArrayList<T> list1, ArrayList<T> list2) {
+    	ArrayList<T> list = new ArrayList<T>();
+        for (T t : list1) {
+            if(list2.contains(t)) {
+                list.add(t);
+            }
+        }
+        return list;
+    }
 	/* Shameful shameful singleton code */
 	private static SearchController instance;
 

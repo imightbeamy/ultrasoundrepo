@@ -13,14 +13,14 @@
 
 <%
 	String email = request.getUserPrincipal().toString();
-	String first = request.getParameter("first");
+	String first = request.getParameter("firstName");
 	first = (first == null)? "No First Name" : first;
-	String last = request.getParameter("last");
+	String last = request.getParameter("lastName");
 	last = (last == null)? "No Last Name" : last;
 	String roleString = request.getParameter("role");
 	String adminEmail = "AmyCiav@gmail.com";
 	
-  	User newUser = new User(email, PrivilegeLevel.ATTENDING, new Date(), first, last);
+  	User newUser = new User(email, PrivilegeLevel.PENDING, new Date(), first, last);
   	RightsManagementController rm = RightsManagementController.getInstance();
   	rm.addUser(newUser);
   	

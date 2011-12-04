@@ -1,5 +1,5 @@
 <h2>Please fill out all information to register for the system.</h2>
-<form name='registration' action='/confirmation' method='post'>
+<form name='registration' action='/confirmation' method='get'>
   <div class='span-4 form-label'>
     <label for='firstName'>First name</label>
   </div>
@@ -18,9 +18,9 @@
     <label for='role'>Role</label>
   </div>
   <div class='span-18 last'>
-      <input type='radio' name='role' value='resident' id='resident-radio' checked' > 
+      <input type='radio' name='role' value='resident' id='resident-radio' > 
       <label for='resident-radio'>Resident Physician</label><br>
-      <input type='radio' name='role' value='attending' id='attending-radio' >
+      <input type='radio' name='role' value='attending' id='attending-radio' checked >
       <label for='attending-radio'>Attending Physician</label><br>
   </div>
   

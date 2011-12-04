@@ -11,7 +11,6 @@
 	String keyword = request.getParameter("keyword");
 	String first = request.getParameter("first");
 	String last = request.getParameter("last");
-	String dob = request.getParameter("dob");
 	String genderString = request.getParameter("gender");
 	Gender gender = null; 
 	if(genderString != null) {
@@ -33,8 +32,9 @@
 	ArrayList<String> keywords = new ArrayList<String>();
 	keywords.add(keyword);
 	
-	SearchController sc = SearchController.getInstance();
-	ArrayList<DataEntry> results = sc.searchByKeyword(keywords);										
+	SearchController sc = SearchController.getInstance(); 
+	ArrayList<DataEntry> results = sc.searchForEntries(first,last,gender,complaint,reason,interpretation,keyword,user);
+											
 %>
 
 <div>

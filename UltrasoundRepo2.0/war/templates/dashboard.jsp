@@ -14,6 +14,9 @@
 	
 	SearchController sc = SearchController.getInstance();
 	ArrayList<DataEntry> records = sc.KeysToDataEntries(sc.searchByUser(userEmail));
+	if(records.size() > 6) {
+	  records = new ArrayList<DataEntry>(records.subList(0, 5));
+	}
 %>
 <div class="span-12 last">
   <% if (role == PrivilegeLevel.ATTENDING) { %>
@@ -41,10 +44,10 @@
 </div>
 
 <div class="span-8 last">
-	<h2>Your Recent Records (<a href='/results?keyword=<%=userEmail%>'>See all</a>)</h2>
+	<h2>Your Recent Records (<a href='/results?keyword=<%=userEmail%>'>All</a>)</h2>
 	<%
 		if(records.size() > 0) {
-			for(DataEntry de: records.subList(0, 5)) {
+			for(DataEntry de: records) {
  				Patient p = de.getPatient();
 	%>
 				<div class='span-5'>
