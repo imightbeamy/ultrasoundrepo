@@ -32,6 +32,12 @@
     <br>    <br>    <br>
     <a href='/upload' ><h2>Upload a Video</h2></a>
   </div>
+  
+  <div>
+    <br>    <br>    <br>
+    <h2>System Summary Report</h2>
+    <%=sc.summaryReport()%>
+  </div>
 </div>
 
 <div class="span-8 last">

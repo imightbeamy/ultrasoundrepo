@@ -15,6 +15,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.FetchOptions.Builder;
 
 import edu.umbc.ultra.logic.Comment;
 import edu.umbc.ultra.logic.DataEntry;
@@ -185,7 +186,62 @@ public class SearchController {
 		}
 		return dataEntryKeys;
 	}
+
+	public ArrayList<Key> searchPatientFields(String first, String last, Gender gender, String dob) {
+		// Get an instance of the data store controller
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		ArrayList<Key> dataEntryKeys = new ArrayList<Key>();
+		
+		ArrayList<Query> querys = new ArrayList<Query>();
+		Query first_query = new Query("Patient");
+		first_query.addFilter("FirstName", Query.FilterOperator.EQUAL, first);
+		first_query.setKeysOnly();
+		querys.add(first_query);
+		
+		Query last_query = new Query("Patient");
+		last_query.addFilter("LastName", Query.FilterOperator.EQUAL, last);
+		last_query.setKeysOnly();
+		querys.add(last_query);
+
+		Query g_query = new Query("Patient");
+		g_query.addFilter("g_query", Query.FilterOperator.EQUAL, gender.toString());
+		g_query.setKeysOnly();
+		querys.add(g_query);
+		
+		for(Query q: querys) {
+			PreparedQuery pq = datastore.prepare(q);
+			for (Entity result : pq.asIterable()) {
+				Key patients_key = result.getKey();
+				Query data_query = new Query("DataEntry", patients_key);
+				PreparedQuery dq = datastore.prepare(data_query);
+				for (Entity de : dq.asIterable()) {
+				  dataEntryKeys.add(de.getKey());
+				}
+			 }
+		}
+		return dataEntryKeys;
+	}
 	
+	public String summaryReport(){
+		String report =  "";
+		
+		Query query = new Query("Patient");
+		query.setKeysOnly();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		PreparedQuery pq = datastore.prepare(query);
+		report+= "Patients in system: " + pq.countEntities(Builder.withDefaults());
+		
+		Query de_query = new Query("DataEntry");
+		query.setKeysOnly();
+		PreparedQuery de_q = datastore.prepare(de_query);
+		report+= "<br>Studies in system: " + de_q.countEntities(Builder.withDefaults());
+		
+		Query u_query = new Query("User");
+		query.setKeysOnly();
+		PreparedQuery u_q = datastore.prepare(u_query);
+		report+= "<br>Users in system: " + u_q.countEntities(Builder.withDefaults());
+		return report;
+	}
 	
 	public ArrayList<Key> searchByUser(String email) {
 		// Get an instance of the data store controller
