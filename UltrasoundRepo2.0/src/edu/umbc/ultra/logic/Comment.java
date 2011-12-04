@@ -19,6 +19,7 @@ public class Comment {
 		this.content = content;
 		this.timestamp = timestamp;
 		this.author = author;
+		this.title = title;
 	}
 
 	public String getTitle() {
@@ -35,5 +36,10 @@ public class Comment {
 
 	public User getAuthor() {
 		return author;
+	}
+	
+	public String toString() {
+		
+		return "content:" + content + "\nauthor:" + author + "\ntitle:" + title;
 	}
 }

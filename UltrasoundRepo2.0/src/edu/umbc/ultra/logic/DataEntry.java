@@ -60,4 +60,19 @@ public class DataEntry {
 	public String getKey() {
 		return entryKey;
 	}
+	
+	public int hashCode() {
+		System.out.println(entryKey.hashCode());
+		return entryKey.hashCode();
+	}
+	
+	public boolean equals(Object o) {
+		if(o instanceof DataEntry) {
+			DataEntry de = (DataEntry) o;
+			return entryKey.equals(de.entryKey);
+		}
+		else {
+			return false;
+		}
+	}
 }

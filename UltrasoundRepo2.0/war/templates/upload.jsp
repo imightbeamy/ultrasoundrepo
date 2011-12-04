@@ -40,11 +40,11 @@
     <label for='gender'>Patient Gender</label>
   </div>
   <div class='span-18 last'>
-      <input type=radio name='gender'> 
+      <input type='radio' value='male' name='gender'> 
       <label for='male'>Male</label><br>
-      <input type=radio name='gender' checked="checked">
+      <input type='radio' value='female' name='gender'>
       <label for='female'>Female</label><br>
-      <input type=radio name='gender'>
+      <input type='radio' value='other' name='gender' checked>
       <label for='other'>Other</label><br>
   </div>
   

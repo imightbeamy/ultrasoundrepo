@@ -17,6 +17,11 @@
     <servlet-class>edu.umbc.ultra.dbase.UploadController</servlet-class>
   </servlet>
   
+  <servlet>
+    <servlet-name>Serve</servlet-name>
+    <servlet-class>edu.umbc.ultra.dbase.Serve</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>start</servlet-name>
     <url-pattern>/</url-pattern>
@@ -25,6 +30,11 @@
   <servlet-mapping>
     <servlet-name>Upload</servlet-name>
     <url-pattern>/videoupload</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>Serve</servlet-name>
+    <url-pattern>/serve</url-pattern>
   </servlet-mapping>
 
   <!-- static files -->

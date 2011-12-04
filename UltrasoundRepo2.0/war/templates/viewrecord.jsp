@@ -18,7 +18,7 @@
 	Patient patient = dataEntry.getPatient();
 %>
   <h2>Video Record</h2>
-   <div class='span-12'>     
+   <div class='span-13'>     
      <h3>Patient Information</h3>
      <table><tbody>
        <tr>
@@ -42,7 +42,7 @@
          <td>Upload Date</td><td><%=dataEntry.getTimestamp()%></td>
        </tr>
        <tr>
-         <td>Upload ID</td><td><%=key%></td>
+         <td>Upload ID</td><td><div class='break-word'><%=key%></div></td>
        </tr>
      </tbody></table>
      
@@ -50,16 +50,18 @@
      <table><tbody>
       <% for(Comment c: dataEntry.getComments()) { %> 
        <tr>
-         <td>Complaint</td><td><%=c.getContent()%></td>
+         <td><%=c.getTitle()%></td>
+         <td><%=c.getContent()%></td>
        </tr>
        <% } %>
      </tbody></table>
    </div>
    <div class='span-6'>
-     <h3><a>Download File</a></h3>
+   
+  <video width="380" height="250" controls>
+   	<source src='/serve?blob-key=<%=dataEntry.getBlobKey().getKeyString()%>' type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+  </video>
+     <h3><a href='/serve?blob-key=<%=dataEntry.getBlobKey().getKeyString()%>'>Download File</a></h3>
    </div>
 </div>
 <% } %>
-
-<br><br>
-<%=dataEntry %>

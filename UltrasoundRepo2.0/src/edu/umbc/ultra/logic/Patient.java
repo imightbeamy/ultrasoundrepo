@@ -15,20 +15,20 @@ public class Patient {
 
 	public Patient(String firstName, String lastName, Date dob, Gender gender,
 			       String id) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstName = firstName.toUpperCase();
+		this.lastName = lastName.toUpperCase();
 		this.dob = dob;
 		this.gender = gender;
-		this.id = id;
+		this.id = id.toUpperCase();
 	}
 
 	public Patient(String firstName, String lastName, Date dob, Gender gender) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstName = firstName.toUpperCase();
+		this.lastName = lastName.toUpperCase();
 		this.dob = dob;
 		this.gender = gender;
 		this.id = "" + firstName.charAt(0) + lastName.charAt(0)
-				+ dob.toString() + "";
+				+ dob.hashCode() + "";
 	}
 
 	public String getFullName() {

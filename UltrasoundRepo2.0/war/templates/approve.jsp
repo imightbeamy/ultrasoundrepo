@@ -30,12 +30,12 @@
     if(request.getParameter("approve") != null && request.getParameter("approve").equals("True")) {
 	  	RightsManagementController rm = RightsManagementController.getInstance();
 	  	rm.changePrivilegeLevel(email, requested_role);
-    	msgBody = "You have been approved as a " + requested_role + 
+    	msgBody = "You have been approved as a " + requested_role.toString().toLowerCase() + 
     	"<a href='http://ultrasoundrepo.appspot.com/'>Click Here to use the system</a>";
     	action = "Thank you for approving";
     }
     else {
-    	msgBody = "You have been denied as a " + requested_role;
+    	msgBody = "You have been denied as a " + requested_role.toString().toLowerCase();
     }
 
     try {
@@ -51,7 +51,7 @@
 %>
         <%=e.getMessage()%>
 <%  
-	{ 
+	}
 	catch (MessagingException e) { 
 %>
         <%=e.getMessage()%>

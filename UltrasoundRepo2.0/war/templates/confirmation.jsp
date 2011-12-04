@@ -27,8 +27,8 @@
   	Properties props = new Properties();
     Session mailSession = Session.getDefaultInstance(props, null);
     String approvalURL = "http://ultrasoundrepo.appspot.com/approve?user=" + email + "&level=" + roleString;
-    String msgBody = "<a href='" + approvalURL + "&approve=True'>Click here to approve " + first + " " + last + "</a>" +
-    				  "<a href='" + approvalURL + "'>Click here to deny request</a>";
+    String msgBody = "<a href='" + approvalURL + "&approve=True'>Click here to approve " + first + " " + last + "</a><br><br>" +
+    				  "<a href='" + approvalURL + "'>Click here to deny the request</a>";
 
     try {
         Message msg = new MimeMessage(mailSession);

@@ -30,13 +30,11 @@
 	String interpretation = request.getParameter("interpretation");
 	String user = request.getParameter("user");
 	
+	ArrayList<String> keywords = new ArrayList<String>();
+	keywords.add(keyword);
+	
 	SearchController sc = SearchController.getInstance();
-	ArrayList<DataEntry> results = sc.searchForEntries(first, 
-														last, 
-														gender,
-														complaint,
-														keyword,
-														user);										
+	ArrayList<DataEntry> results = sc.searchByKeyword(keywords);										
 %>
 
 <div>
@@ -48,7 +46,7 @@
     <div class='span-20'>
       <table><tbody>
         <tr>
-          <td>Patient Name</td><td> <%=p.getFirstName()%> <%=p.getLastName()%> </td>
+          <td>Patient Name</td><td> <%=p.getFirstName()%> <%=p.getLastName()%> (<%=p.getId()%>) </td>
         </tr>
         <tr>
           <td>Patient DoB</td><td> <%=p.getDob().toString()%> </td>

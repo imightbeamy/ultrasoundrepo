@@ -87,11 +87,12 @@ public class UploadController extends HttpServlet {
 		catch (ParseException e) {
 			DoB = new Date();
 		}
+		
 		Gender gender = Patient.getGenderFromString(req.getParameter("gender"));
 		patient = new Patient(first, last, DoB, gender);
 
 		// Gets the active user.
-		String userEmail = req.getUserPrincipal().toString();
+		String userEmail = "test@example.com";//req.getUserPrincipal().toString();
 		User user = rightsController.getUser(userEmail);
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 
@@ -133,7 +134,6 @@ public class UploadController extends HttpServlet {
 
 		comments.add(new Comment(rInterp, user, "Attending Physician interpretation."));
 		comments.add(new Comment(aInterp, user, "Resident Physician interpretation."));
-		System.out.println(comments);
 		DataEntry data = new DataEntry(comments, patient, user, blobKey, null);
 		UploadEntry(data);
 		res.sendRedirect("/viewrecord?entry=" + data.getKey());
@@ -193,14 +193,13 @@ public class UploadController extends HttpServlet {
 			datastore.put(commentEntity);
 			for (String keyword : keywords) {
 				Entity kwEntity = new Entity("Keyword", commentEntity.getKey());
-				kwEntity.setProperty("Word", keyword);
+				kwEntity.setProperty("Word", keyword.replaceAll("[^A-Za-z]", "").toUpperCase());
 				// If this is a chief complaint (first comment), set it as such
 				if (c.getTitle().equals("Complaint")) {
 					kwEntity.setProperty("Type", "CC");
 				} else {
 					kwEntity.setProperty("Type", "KW");
 				}
-				System.out.println("Adding keyword \"" + keyword + "\"");
 				datastore.put(kwEntity);
 			}
 		}
@@ -211,7 +210,7 @@ public class UploadController extends HttpServlet {
 	private ArrayList<String> extractKeywords(String commentText) {
 		ArrayList<String> results = new ArrayList<String>();
 
-		String[] words = commentText.split("\\s+");
+		String[] words = commentText.split(" ");
 		for (String word : words) {
 			if (word.length() >= MIN_KEYWORD_LENGTH) {
 				results.add(word.toLowerCase());

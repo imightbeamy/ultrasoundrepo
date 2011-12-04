@@ -1,7 +1,9 @@
 package edu.umbc.ultra.dbase;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -27,10 +29,9 @@ public class SearchController {
 
 	public DataEntry getEntryByID(String id) {
 		// Get instance of data store controller
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
+		DatastoreService dataStore = DatastoreServiceFactory.getDatastoreService();
 		try {
-			Entity data_entry = datastore.get(KeyFactory.stringToKey(id));
+			Entity data_entry = dataStore.get(KeyFactory.stringToKey(id));
 			return getDataEntryFromEntity(data_entry);
 		} catch (Exception e) {
 			return null;
@@ -108,9 +109,90 @@ public class SearchController {
 		return comments;
 	}
 
+	public ArrayList<DataEntry> searchByKeyword(ArrayList<String> keywords) {
+		ArrayList<Key> dataEntries = searchComments(keywords, null);
+		dataEntries.addAll(searchPatients(keywords));
+		return KeysToDataEntries(dataEntries);
+	}
+	
+	public ArrayList<DataEntry> KeysToDataEntries(ArrayList<Key> dataEntities) {
+		dataEntities = GetUniqueKeys(dataEntities);
+		ArrayList<DataEntry> dataEntries = new ArrayList<DataEntry>();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		for (Key key : dataEntities) {
+			Entity dataEntry;
+			try {
+				dataEntry = datastore.get(key);
+				dataEntries.add(getDataEntryFromEntity(dataEntry));
+			} catch (EntityNotFoundException e) {
+				e.printStackTrace();
+			}
+		 }
+		return dataEntries;
+	}
+	
+	public ArrayList<Key> searchComments(ArrayList<String> keywords, String type) {
+		for(String word: keywords) {
+			word = word.toUpperCase();
+		}
+		Query query = new Query("Keyword");
+		query.addFilter("Word", Query.FilterOperator.IN, keywords);
+		if(type != null) {
+			query.addFilter("Type", Query.FilterOperator.EQUAL, type);
+		}
+		query.setKeysOnly();
+		
+		// Get an instance of the data store controller
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		// Submit the previously prepared query
+		PreparedQuery pq = datastore.prepare(query);
+		
+		ArrayList<Key> dataEntryKeys = new ArrayList<Key>();
+		for (Entity result : pq.asIterable()) {
+			Key dataEntry_key = result.getParent().getParent();
+			dataEntryKeys.add(dataEntry_key);
+		 }
+		return dataEntryKeys;
+	}
+	
+	//Searches for keyword in any patient field 
+	public ArrayList<Key> searchPatients(ArrayList<String> keywords) {
+		// Get an instance of the data store controller
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		ArrayList<Key> dataEntryKeys = new ArrayList<Key>();
+		
+		String[] fields = {"FirstName", "LastName", "Gender", "ID"}; 
+		for(String keyword: keywords) {
+			keyword = keyword.toUpperCase();
+			for(String field: fields) {
+				Query query = new Query("Patient");
+				query.addFilter(field, Query.FilterOperator.EQUAL, keyword);
+				query.setKeysOnly();
+				// Submit the query
+				PreparedQuery pq = datastore.prepare(query);
+				for (Entity result : pq.asIterable()) {
+					Key patients_key = result.getKey();
+					Query data_query = new Query("DataEntry", patients_key);
+					PreparedQuery dq = datastore.prepare(data_query);
+					for (Entity de : dq.asIterable()) {
+					  dataEntryKeys.add(de.getKey());
+					}
+				 }
+			}
+		}
+		return dataEntryKeys;
+	}
+	
+	
+	public ArrayList<Key> GetUniqueKeys(ArrayList<Key> values)
+	{
+	    return new ArrayList<Key>(new HashSet<Key>(values));
+	}
+	
 	public ArrayList<DataEntry> searchForEntries(String firstName,
 			String lastName, Gender gender, String chiefComplaint,
 			String keywords, String userEmail) {
+		
 		if (firstName != null || lastName != null || gender != null) {
 			return searchForPatients(firstName, lastName, gender,
 					chiefComplaint, keywords, userEmail);
@@ -234,6 +316,7 @@ public class SearchController {
 				DataEntry de = getDataEntryFromEntity(dataEntity);
 				results.add(de);
 			} catch (EntityNotFoundException e) {
+				e.printStackTrace();
 			}
 		}
 

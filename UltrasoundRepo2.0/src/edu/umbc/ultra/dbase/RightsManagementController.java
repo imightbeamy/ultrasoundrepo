@@ -69,8 +69,7 @@ public class RightsManagementController {
 		Entity userEntity = new Entity("User", user.getGoogleUser());
 
 		userEntity.setProperty("Registered", user.getRegisteredDate());
-		userEntity.setProperty("Privilege",
-				User.getPrivilegeLevelAsString(user.getPrivilegeLevel()));
+		userEntity.setProperty("Privilege", user.getPrivilegeLevel().toString());
 		userEntity.setProperty("FirstName", user.getFirstName());
 		userEntity.setProperty("LastName", user.getLastName());
 
@@ -85,8 +84,7 @@ public class RightsManagementController {
 		Entity userEntity = new Entity("User", user.getGoogleUser());
 
 		userEntity.setProperty("Registered", user.getRegisteredDate());
-		userEntity.setProperty("Privilege",
-				User.getPrivilegeLevelAsString(user.getPrivilegeLevel()));
+		userEntity.setProperty("Privilege", user.getPrivilegeLevel().toString());
 		userEntity.setProperty("FirstName", user.getFirstName());
 		userEntity.setProperty("LastName", user.getLastName());
 

@@ -15,6 +15,11 @@ a {
   color: #486636;
 }
 
+.break-word {
+  word-wrap: break-word;
+  width: 400px;
+}
+
 .container {
   background-color: #FFF;
   min-height: 100%;
